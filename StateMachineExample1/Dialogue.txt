@@ -1,0 +1,71 @@
+﻿all:"CLEAR"
+
+start:"[nexttest]hi![SHOW_PENIS][SHOW_BALLS]testing!"{"style":"Thought"}
+nexttest:"loading position[nexttest2][CLEAN_CUM][ANIMTOOLS_ATV_Missionary_V2table][SMLOADCONFIG_StateMachine1][ANIMTOOLSSETVOICECHAR4][SETVAR_voice_KYANNA]"{"style":"Thought"}
+
+sm_not_loaded:"sm_not_loaded"
+
+debug:"*sm_state*, *dt_depth_max5*, *dt_vigour_max5*, *sm_depth*, *sm_vigour*"
+none:"no state?"
+
+now_position_vaginal:"yes, please fuck my pussy!"
+now_position_anal:"yes, please fuck my ass!"
+position_anal_to_position_oral:"ass to mouth??"
+
+teased:"stop teasing me!"
+out:"please put it in!"
+moving:"ohh yea"
+good:"oh my god, it's so good!"
+stretching:"oh fuck, your huge cock is stretching me out!"
+rough:"SO ROUGH!"
+incredible:"YOU'RE INCREDIBLE!"
+overwhelmed:"I CAN'T TAKE IT! I'M OVERWHELMED!!"
+
+stretching_to_out:"am I gaping?"
+good_to_out:"please put it back in!"
+incredible_to_out:"please put it back in!"
+rough_to_out:"please put it back in!"
+overwhelmed_to_out:"oh my god, I need this break"
+
+now_speed_veryfast:"HOLY SHIT! SO FAST!"
+
+stroke_verydeep:"OH GOD! I CAN'T HANDLE THOSE DEEP STROKES!"
+stroke_hilt:"OH GOD! I CAN'T HANDLE THOSE DEEP STROKES!"
+
+now_depth_shallow:"[SETVAR_da.breathPercentage_0]ooohhh, that's a thick cock"{"check":{"sm_depth_shallow_times":1}}
+
+now_depth_deep:"Jesus christ, it's only half way in! Let me get used to this"{"check":{"sm_depth_deep_times":1}}
+now_depth_verydeep:"oh fuck, so much dick!"{"check":{"sm_depth_verydeep_times":1, "sm_depth_deep_totaltime":">=10"}}
+now_depth_hilt:"OH GOD! WE FINALLY GOT THE WHOLE THING IN!"{"check":{"sm_depth_hilt_times":1, "sm_depth_verydeep_totaltime":">=20"}}
+
+now_depth_verydeep:"FUCK, I need more time to get used to your giant dick!"{"check":{"sm_depth_verydeep_times":1, "sm_depth_deep_totaltime":"<10"}}
+now_depth_hilt:"OH NO! I WASN'T READY FOR ALL THAT DICK!"{"check":{"sm_depth_hilt_times":1, "sm_depth_verydeep_totaltime":"<20"}}
+
+now_depth_deep:"I think I'm ready for more dick now ;)"{"check":{"sm_depth_verydeep_times":0, "sm_depth_deep_totaltime":">=10"}}
+depth_deep:"I think I'm ready for more dick now ;)"{"check":{"sm_depth_verydeep_times":0, "sm_depth_deep_totaltime":">=10"}}
+
+now_depth_verydeep:"I think I'm ready for your whole dick now ;)"{"check":{"sm_depth_hilt_times":0, "sm_depth_verydeep_totaltime":">=20"}}
+depth_verydeep:"I think I'm ready for your whole dick now ;)"{"check":{"sm_depth_hilt_times":0, "sm_depth_verydeep_totaltime":">=20"}}
+
+depth_deep:"oh god that's deep"{"check":{"sm_depth_verydeep_times":">=1", "sm_depth_deep_totaltime":">=10"}}
+depth_deep:"I can barely take the tip of your dick!"{"check":{"sm_depth_verydeep_times":">=1", "sm_depth_deep_totaltime":">=10"}}
+depth_verydeep:"fuck, that's so deep! FUCK!"{"check":{"sm_depth_hilt_times":">1", "sm_depth_verydeep_totaltime":">=20"}}
+depth_hilt:"OH GOD! YOUR DICK'S TOO FUCKING BIG!"{"check":{"sm_depth_hilt_times":">1", "sm_depth_verydeep_totaltime":">=20"}}
+
+now_depth_hilt:"FUCK!"{"check":{"sm_depth_hilt_times":">1"}}
+now_depth_verydeep:"that's so deep!"{"check":{"sm_depth_verydeep_times":">1"}}
+
+now_herpleasure_high:"Oh baby, I'm getting close!"
+herprecum:"I'M GONNA CUM!!!"{"sm_herpleasure_cumming_times":0}
+now_herprecum:"I'M GONNA CUM!!!"{"sm_herpleasure_cumming_times":0}
+herprecum:"I'M GONNA CUM AGAIN!!!"{"sm_herpleasure_cumming_times":">0"}
+now_herprecum:"I'M GONNA CUM AGAIN!!!"{"sm_herpleasure_cumming_times":">0"}
+
+herprecumplease:"Please fuck me hard! I'm gonna cum!"
+now_herprecumplease:"Please fuck me hard! I'm gonna cum!"
+herprecumfaster:"Fuck me faster! I'm gonna cum!"
+now_herprecumfaster:"Fuck me faster! I'm gonna cum!"
+herprecumdeeper:"Deeper, baby! I'm gonna cum!"
+now_herprecumdeeper:"Deeper, baby! I'm gonna cum!"
+
+now_hercumming:"[ANIMTOOLSDISABLEHUNNIESOUNDS][SETVAR_da.breathPercentage_0][SETVAR_da.oxygenPercentage_0][SHOCK_10000_85][RIGHT_ARM_LOOSE][*voice*_CLIMAX]AAHHHH!ББББББ AAAHHHH!!ББББББ AAAHHHH!!!ББББББ FUCK!!!ББББББ I'M CUMMING!!!ББББББ OH MY GOD *YOU* IT'S SO GOOD!ББББББ AAAAHHHH!!! ББББББББББББББББББББББББ[ANIMTOOLSENABLEHUNNIESOUNDS]"

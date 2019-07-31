@@ -1,0 +1,261 @@
+{
+	"states": {
+		"herprecum": {
+			"requirements": {
+				"herpleasure": ["precum"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0][RIGHT_ARM_LOOSE]"],
+			"chances": 5,
+			"interrupt": true,
+			"interruptable": false,
+			"priority": 150,
+			"effects": {
+				"herpleasure": 7,
+				"hispleasure": 7,
+				"streak": 1
+			}
+		},
+		"herprecumplease": {
+			"requirements": {
+				"herpleasure": ["precum"],
+				"depth": ["none", "shallow"],
+				"speed": ["none", "slow"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0][RIGHT_ARM_LOOSE]"],
+			"chances": 5,
+			"interrupt": true,
+			"interruptable": false,
+			"priority": 150
+		},
+		"herprecumfaster": {
+			"requirements": {
+				"herpleasure": ["precum"],
+				"speed": ["none", "slow"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0][RIGHT_ARM_LOOSE]"],
+			"chances": 5,
+			"interrupt": true,
+			"interruptable": false,
+			"priority": 150
+		},
+		"herprecumdeeper": {
+			"requirements": {
+				"herpleasure": ["precum"],
+				"depth": ["shallow"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0][RIGHT_ARM_LOOSE]"],
+			"chances": 5,
+			"interrupt": true,
+			"interruptable": false,
+			"priority": 150
+		},
+		"hercumming": {
+			"requirements": {
+				"herpleasure": ["cumming"]
+			},
+			"interrupt": true,
+			"interruptable": false,
+			"priority": 150,
+			"effects": {
+				"herpleasure": -10000,
+				"hispleasure": 100,
+				"streak": 10,
+				"herorgasms": 1
+			}
+		},
+		"overwhelmed": {
+			"requirements": {
+				"vigour": ["veryhard"],
+				"depth": ["verydeep", "hilt"],
+				"speed": ["fast", "veryfast"],
+				"streak": ["onfire"],
+				"herpleasure": ["high"]
+			},
+			"actions": ["[ARMS_HIS_LEGS][RIGHT_ARM_LOOSE][SETVAR_da.breathPercentage_0]", "[SHOCK_10000_85][ARMS_HIS_LEGS][RIGHT_ARM_LOOSE][SETVAR_da.breathPercentage_0]", "[ADD_TEARS][ARMS_HIS_LEGS][RIGHT_ARM_LOOSE][SETVAR_da.breathPercentage_0]", "[WINCE_500][ARMS_HIS_LEGS][RIGHT_ARM_LOOSE][SETVAR_da.breathPercentage_0]"],
+			"effects": {
+				"herpleasure": 7,
+				"hispleasure": 7,
+				"streak": 1
+			},
+			"chances": 5
+		},
+		"teased": {
+			"requirements": {
+				"vigour": ["none", "soft"],
+				"depth": ["shallow"],
+				"speed": ["none", "slow"],
+				"herpleasure": ["none", "low", "high"]
+			},
+			"actions": ["[ARMS_BACK]"],
+			"effects": {
+				"streak": -1
+			}
+		},
+		"good": {
+			"requirements": {
+				"vigour": ["hard"],
+				"depth": ["deep"],
+				"speed": ["fast", "veryfast"],
+				"herpleasure": ["none", "low", "high"]
+			},
+			"actions": ["[ARMS_BACK][SETVAR_da.breathPercentage_50]"],
+			"effects": {
+				"herpleasure": 5,
+				"hispleasure": 2,
+				"streak": 3
+			},
+			"chances": 2
+		},
+		"rough": {
+			"requirements": {
+				"depth": ["verydeep", "hilt"],
+				"speed": ["fast", "veryfast"],
+				"herpleasure": ["none", "low", "high"]
+			},
+			"actions": ["[ARMS_HIS_LEGS][SETVAR_da.breathPercentage_0]"],
+			"effects": {
+				"herpleasure": 6,
+				"hispleasure": 5,
+				"streak": 5
+			},
+			"chances": 2
+		},
+		"incredible": {
+			"requirements": {
+				"depth": ["verydeep", "hilt"],
+				"speed": ["fast", "veryfast"],
+				"streak": ["heatingup"],
+				"herpleasure": ["high"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0]"],
+			"effects": {
+				"herpleasure": 7,
+				"hispleasure": 6,
+				"streak": 5
+			},
+			"chances": 2
+		},
+		"stretching": {
+			"requirements": {
+				"depth": ["verydeep", "hilt"],
+				"speed": ["none", "slow"],
+				"herpleasure": ["none", "low", "high"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_50]"],
+			"chances": 2
+		},
+		"out": {
+			"requirements": {
+				"depth": ["none"],
+				"herpleasure": ["none", "low", "high"]
+			},
+			"actions": ["[ARMS_BACK]"],
+			"effects": {
+				"herpleasure": -50,
+				"hispleasure": -300,
+				"streak": -20
+			},
+			"chances": 3
+		},
+		"in": {
+			"requirements": {
+				"depth": ["shallow", "deep", "verydeep", "hilt"],
+				"herpleasure": ["none", "low", "high"]
+			}
+		},
+		"moving": {
+			"requirements": {
+				"depth": ["shallow", "deep", "verydeep", "hilt"],
+				"speed": ["slow", "fast", "veryfast"],
+				"herpleasure": ["none", "low", "high"]
+			}
+		},
+		"depth_hilt": {
+			"actions": ["[SHOCK_500_100][ARMS_HIS_LEGS]", "[ADD_TEARS][ARMS_HIS_LEGS]", "[WINCE_500][ARMS_HIS_LEGS]"],
+			"interrupt": true,
+			"interruptable": "false",
+			"effects": {
+				"herpleasure": 3,
+				"hispleasure": 2,
+				"streak": 5
+			},
+			"chances": 2
+		},
+		"depth_verydeep": {
+			"effects": {
+				"herpleasure": 2,
+				"hispleasure": 1,
+				"streak": 2
+			}
+		},
+		"speed_veryfast": {
+			"actions": ["[SETVAR_da.breathPercentage_0]"],
+			"effects": {
+				"herpleasure": 4,
+				"hispleasure": 2,
+				"streak": 5
+			}
+		},
+		"speed_fast": {
+			"actions": ["[SETVAR_da.breathPercentage_50]"],
+			"effects": {
+				"herpleasure": 3,
+				"hispleasure": 1,
+				"streak": 2
+			}
+		}
+	},
+	"variables": {
+		"streak": {
+			"min": 0,
+			"max": 120,
+			"value": 0,
+			"cutoffs": {
+				"warmingup": 50,
+				"onfire": 100
+			}
+		},
+		"vigour": {
+			"cutoffs": {
+				"soft": 1,
+				"hard": 40,
+				"veryhard": 70
+			}
+		},
+		"depth": {
+			"cutoffs": {
+				"shallow": 1,
+				"deep": 4,
+				"verydeep": 7,
+				"hilt": 9999
+			}
+		},
+		"speed": {
+			"cutoffs": {
+				"slow": 5,
+				"fast": 40,
+				"veryfast": 70
+			}
+		},
+		"herpleasure": {
+			"min": 0,
+			"max": 500,
+			"cutoffs": {
+				"low": 1,
+				"high": 250,
+				"precum": 400,
+				"cumming": 500
+			}
+		},
+		"hispleasure": {
+			"min": 0,
+			"max": 1000,
+			"cutoffs": {
+				"low": 1,
+				"high": 500,
+				"precum": 800,
+				"cumming": 1000
+			}
+		}
+	}
+}
