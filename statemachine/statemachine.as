@@ -6,9 +6,16 @@ da.masturbation.herpleasure {read and write} - her masturbation pleasure (scale:
 da.pleasurePercentage {read and write} - him pleasure (scale: 0-100)
 
 should depth hilt be optional? some people might want to use depth as an absolute for penis size, like depth cutoffs: {"deep":4, "verydeep":7, "toodeep":9, "monster":12}
+	maybe hilt should be a separate variable? so you have both depth and hilt
 maybe have a variable for penis_length and penis_girth?
 timing? state change cooldowns? lookbehind? I'd like to get out_to_hilted or out_to_overwhelmed working, also stroke variable could be improved with some historical data...
 interrupts (based on priority?)
+should you be able to make a set of requirements into a variable? like variable contact: { requirements: { depth: ["shallow", "deep", "verydeep" ] } }
+	maybe it'd instead be called conditions, and the value of the variable would be the number of conditions currently being met? it should share code with the requirements check for states
+	"too_much_dick": { conditions: {"penis_girth":["huge", "monster"], "depth":["too_deep", "monster"] }, "cutoffs":{ "toomuch": 1, "waytoomuch": 2 } }
+	and then a state could have requirements: {contact:["true"] }
+
+IMPORTCONFIG - would work like LOADCONFIG except it adds to the current config instead of replacing
 */
 
 
@@ -51,6 +58,7 @@ package flash
 	var lastpos:Number = 0;
 	var statemanager = new StateManager();
 	var penis_len = 0;
+	var penis_girth = 0;
 	var now_seconds:Number = 0;
 
 	var mydialogstateclass;
@@ -172,6 +180,21 @@ package flash
 				value: 0
 			},
 			depth:{
+				cutoffs:{},
+				state: 'none',
+				value: 0
+			},
+			hilted:{
+				cutoffs:{'true':1, 'false':0},
+				state: 'none',
+				value: 0
+			},
+			penis_length:{
+				cutoffs:{},
+				state: 'none',
+				value: 0
+			},
+			penis_girth:{
 				cutoffs:{},
 				state: 'none',
 				value: 0
@@ -370,6 +393,9 @@ package flash
 			variables.depth.value = recentdeepest.stats[0].maxval;
 			variables.vigour.value = recentvigour.stats[1].avgval * 100;
 			variables.speed.value = recentspeed.stats[1].avgval;
+			variables.hilted.value = variables.depth.value / penis_len*0.99;
+			variables.penis_length.value = penis_len;
+			variables.penis_girth.value = penis_girth;
 
 			var maxdepth = recentdeepest.stats[2].maxval;
 			var mindepth = recentdeepest.stats[2].minval;
@@ -701,13 +727,14 @@ package flash
 			//should I prevent herpos from going below 0?
 
 			penis_len = g.him.penis.scaleX * 10.0;//approximately equal to inches?
+			penis_girth = g.him.penis.scaleY;
 			var herpos_scaled:Number = herpos * penis_len;
 			var vigour:Number = Math.min(1.0, g.her.vigour / 1000.0);//seems like vigour can go over 1 sometimes?
 			var now:Date = new Date();
 			now_seconds = now.getTime()/1000.0;
 			g.dialogueControl.advancedController._dialogueDataStore["dt_time"] = now_seconds;
 			g.dialogueControl.advancedController._dialogueDataStore["dt_penislength"] = penis_len;
-			g.dialogueControl.advancedController._dialogueDataStore["dt_penisgirth"] = g.him.penis.scaleY;
+			g.dialogueControl.advancedController._dialogueDataStore["dt_penisgirth"] = penis_girth;
 			g.dialogueControl.advancedController._dialogueDataStore["dt_herpos"] = herpos;
 			g.dialogueControl.advancedController._dialogueDataStore["dt_contact"] = contact;//for debugging
 			g.dialogueControl.advancedController._dialogueDataStore["dt_contactdist"] = contactdist;//for debugging
