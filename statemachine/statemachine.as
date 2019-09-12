@@ -342,8 +342,8 @@ package flash
 				triggerState(p, name, now, old);
 
 				if(old) g.dialogueControl.buildState(old+"_to_"+name, 500);
-				g.dialogueControl.buildState("now_"+name, 100);
-				g.dialogueControl.buildState(name, 50);
+				g.dialogueControl.buildState("now_"+name, 200);
+				g.dialogueControl.buildState(name, 100);
 			} else if( Math.random() * 100 < p.chances ) {
 				triggerState(p, name, now, old);
 				g.dialogueControl.buildState(name, 20);
@@ -685,7 +685,7 @@ package flash
 		public function smcheckWordAction()
 		{
 			if ( g.dialogueControl.words && g.dialogueControl.words[g.dialogueControl.sayingWord] != undefined ) {
-				log("checking for load");
+				//log("checking for load");
 				if(patternforload.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
 					log("found load command");
 					var path = g.dialogueControl.words[g.dialogueControl.sayingWord].action.replace(patternforload, "");
