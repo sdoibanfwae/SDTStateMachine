@@ -6,16 +6,45 @@ nexttest:"loading position[nexttest2][CLEAN_CUM][ANIMTOOLS_ATV_Missionary_V2tabl
 sm_not_loaded:"sm_not_loaded"
 
 sobig:"it's so big!"
-toothick:"fuck, your dick is too thick!"
-toodeep:"don't go so deep!"
-monsterdepth:"FUCK! THAT'S WAY TOO DEEP!"
-toomuchdick:"YOU'RE A MONSTER!"
+sohuge:"oh fuck you're huge!"
+stretching_true:"you're stretching me out!"
+
+toothick:"fuck, fuck, fuck! your dick is too thick!"{"check": {"sm_mood":"angry"}}
+depth_toodeep:"don't go so deep!"{"check": {"sm_mood":"angry"}}
+depth_monster:"FUCK! THAT'S WAY TOO DEEP!"{"check": {"sm_mood":"angry"}}
+toomuchdick:"YOU'RE A MONSTER!"{"check": {"sm_mood":"angry"}}
+toomuchdick:"I CAN'T TAKE IT!"{"check": {"sm_mood":"angry"}}
+
+toothick:"fuck, fuck, fuck! your dick is too thick!"{"check": {"sm_mood":"upset"}}
+depth_toodeep:"don't go so deep!"{"check": {"sm_mood":"upset"}}
+depth_monster:"FUCK! THAT'S WAY TOO DEEP!"{"check": {"sm_mood":"upset"}}
+toomuchdick:"YOU'RE A MONSTER!"{"check": {"sm_mood":"upset"}}
+toomuchdick:"I CAN'T TAKE IT!"{"check": {"sm_mood":"upset"}}
+
+toothick:"fuck, fuck, fuck! your dick is too thick!"{"check": {"sm_mood":"normal"}}
+depth_toodeep:"don't go so deep!"{"check": {"sm_mood":"normal"}}
+depth_monster:"FUCK! THAT'S WAY TOO DEEP!"{"check": {"sm_mood":"normal"}}
+toomuchdick:"YOU'RE A MONSTER!"{"check": {"sm_mood":"normal"}}
+toomuchdick:"I CAN'T TAKE IT!"{"check": {"sm_mood":"normal"}}
+
+toothick:"fuck, fuck, fuck! your dick is so thick!"{"check": {"sm_mood":"happy"}}
+depth_toodeep:"it hurts when you go so deep!"{"check": {"sm_mood":"happy"}}
+depth_monster:"FUCK! THAT'S SOOO DEEP!"{"check": {"sm_mood":"happy"}}
+toomuchdick:"I'LL TRY TO TAKE IT FOR YOU BABY!"{"check": {"sm_mood":"happy"}}
+
+toothick:"YES! SO THICK!"{"check": {"sm_mood":"ahegao"}}
+depth_toodeep:"YES FUCK ME DEEP LIKE THAT!"{"check": {"sm_mood":"ahegao"}}
+depth_monster:"YOU'RE IN MY STOMACH!"{"check": {"sm_mood":"ahegao"}}
+toomuchdick:"DADDY! DADDY! DESTROY MY LITTLE PUSSY!"{"check": {"sm_mood":"ahegao"}}
 
 now_herpleasure_high:"Oh baby, I'm getting close!"
-herprecum:"I'M GONNA CUM!!!"{"sm_herpleasure_cumming_times":0}
-now_herprecum:"I'M GONNA CUM!!!"{"sm_herpleasure_cumming_times":0}
-herprecum:"I'M GONNA CUM AGAIN!!!"{"sm_herpleasure_cumming_times":">0"}
-now_herprecum:"I'M GONNA CUM AGAIN!!!"{"sm_herpleasure_cumming_times":">0"}
+herprecum:"I'M GONNA CUM!!!"{"check": {"sm_herpleasure_cumming_times":0}}
+now_herprecum:"I'M GONNA CUM!!!"{"check": {"sm_herpleasure_cumming_times":0}}
+herprecum:"I'M GONNA CUM AGAIN!!!"{"check": {"sm_herpleasure_cumming_times":">0"}}
+now_herprecum:"I'M GONNA CUM AGAIN!!!"{"check": {"sm_herpleasure_cumming_times":">0"}}
+
+herprecum:"I CAN'T BELIEVE YOU'RE GONNA ME ME CUM AGAIN!!!"{"check": {"sm_herpleasure_cumming_times":">5"}}
+now_herprecum:"I CAN'T BELIEVE YOU'RE GONNA ME ME CUM AGAIN!!!"{"check": {"sm_herpleasure_cumming_times":">5"}}
 
 herprecumplease:"Please fuck me hard! I'm gonna cum!"
 now_herprecumplease:"Please fuck me hard! I'm gonna cum!"
@@ -26,4 +55,4 @@ now_herprecumdeeper:"Deeper, baby! I'm gonna cum!"
 
 now_hercumming:"[ANIMTOOLSDISABLEHUNNIESOUNDS][SETVAR_da.breathPercentage_0][SETVAR_da.oxygenPercentage_0][SHOCK_10000_85][RIGHT_ARM_LOOSE][*voice*_CLIMAX]AAHHHH!ББББББ AAAHHHH!!ББББББ AAAHHHH!!!ББББББ FUCK!!!ББББББ I'M CUMMING!!!ББББББ OH MY GOD *YOU* IT'S SO GOOD!ББББББ AAAAHHHH!!! ББББББББББББББББББББББББ[ANIMTOOLSENABLEHUNNIESOUNDS]"
 
-small_penis_true:"haha!"
+small_penis_true:"it's so small!"

@@ -55,12 +55,12 @@
 			},
 			"interrupt": true,
 			"interruptable": false,
-			"priority": 150,
+			"priority": 175,
 			"effects": {
 				"herpleasure": -10000,
 				"hispleasure": 100,
 				"herorgasms": 1,
-				"mood": 100
+				"mood": 0.5
 			}
 		},
 		"out": {
@@ -70,7 +70,7 @@
 			},
 			"actions": ["[ARMS_BACK]"],
 			"effects": {
-				"herpleasure": -50,
+				"herpleasure": -5,
 				"hispleasure": -300
 			},
 			"chances": 1
@@ -84,11 +84,26 @@
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0]"],
 			"effects": {
-				"herpleasure": 7,
-				"hispleasure": 6,
+				"herpleasure": 4,
+				"hispleasure": 2,
 				"mood": 0.01
 			},
-			"chances": 2
+			"chances": 3
+		},
+		"sohuge": {
+			"requirements": {
+				"depth": ["deep", "verydeep"],
+				"penis_length": ["huge", "monster"],
+				"penis_girth": ["huge"],
+				"speed": ["slow", "fast", "veryfast"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0]"],
+			"effects": {
+				"herpleasure": 5,
+				"hispleasure": 3,
+				"mood": 0.01
+			},
+			"chances": 3
 		},
 		"toothick": {
 			"requirements": {
@@ -100,33 +115,23 @@
 		},
 		"toomuchdick": {
 			"requirements": {
-				"depth": ["monster"],
-				"penis_girth": ["monster"],
+				"depth": ["toodeep", "monster"],
+				"penis_girth": ["huge", "monster"],
 				"speed": ["slow", "fast", "veryfast"]
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0]"]
 		},
-		"toodeep": {
-			"requirements": {
-				"depth": ["toodeep"]
-			}
-		},
-		"monsterdepth": {
-			"requirements": {
-				"depth": ["monster"]
-			}
-		},
 		"depth_monster": {
 			"effects": {
-				"herpleasure": 2,
-				"hispleasure": 1,
+				"herpleasure": -2,
+				"hispleasure": 2,
 				"mood": -0.2
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0]"]
 		},
 		"depth_toodeep": {
 			"effects": {
-				"herpleasure": 2,
+				"herpleasure": -1,
 				"hispleasure": 1,
 				"mood": -0.1
 			},
@@ -134,7 +139,7 @@
 		},
 		"depth_verydeep": {
 			"effects": {
-				"herpleasure": 2,
+				"herpleasure": 3,
 				"hispleasure": 1,
 				"mood": 0.01
 			},
@@ -143,7 +148,7 @@
 		"speed_veryfast": {
 			"actions": ["[SETVAR_da.breathPercentage_0]"],
 			"effects": {
-				"herpleasure": 4,
+				"herpleasure": 3,
 				"hispleasure": 2,
 				"mood": 0.01
 			}
@@ -151,7 +156,7 @@
 		"speed_fast": {
 			"actions": ["[SETVAR_da.breathPercentage_50]"],
 			"effects": {
-				"herpleasure": 3,
+				"herpleasure": 2,
 				"hispleasure": 1,
 				"mood": 0.01
 			}
@@ -176,6 +181,13 @@
 		},
 		"mood_ahegao": {
 			"actions": ["[AHEGAO_MOOD]"]
+		},
+		"small_penis_true": {
+			"effects": {
+				"herpleasure": -1,
+				"mood": -0.1
+			},
+			"chances": 2
 		}
 	},
 	"variables": {
@@ -219,7 +231,6 @@
 				"penis_girth": ["small"]
 			},
 			"cutoffs": {
-				"false": 0,
 				"true": 2
 			}
 		},
@@ -252,7 +263,7 @@
 		},
 		"stretching": {
 			"conditions": {
-				"depth": ["toodeep", "monster"],
+				"depth": ["verydeep", "toodeep", "monster"],
 				"huge_penis": ["true"]
 			},
 			"cutoffs": {
@@ -287,12 +298,12 @@
 		},
 		"herpleasure": {
 			"min": 0,
-			"max": 500,
+			"max": 200,
 			"cutoffs": {
 				"low": 1,
-				"high": 250,
-				"precum": 400,
-				"cumming": 500
+				"high": 30,
+				"precum": 70,
+				"cumming": 120
 			}
 		},
 		"hispleasure": {
