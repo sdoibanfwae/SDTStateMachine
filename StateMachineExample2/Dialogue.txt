@@ -1,6 +1,6 @@
 ﻿all:"CLEAR"
 
-start:"[nexttest]hi![SHOW_PENIS][SHOW_BALLS]testing!"{"style":"Thought"}
+start:"[SM_ENABLE_DEBUG][nexttest]hi![SHOW_PENIS][SHOW_BALLS]testing!"{"style":"Thought"}
 nexttest:"loading position[nexttest2][CLEAN_CUM][ANIMTOOLS_ATV_Missionary_V2table][SMLOADCONFIG_StateMachine2][ANIMTOOLSSETVOICECHAR4][SETVAR_voice_KYANNA]"{"style":"Thought"}
 
 sm_not_loaded:"sm_not_loaded"
