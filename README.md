@@ -29,6 +29,8 @@
 
 Check the example for how to use it. The dialog uses a trigger to load the config JSON txt file. Use The JSON Validator to verify that your JSON is correctly formatted. https://jsonlint.com/
 
+Enable debug mode with [SM_ENABLE_DEBUG] or disable debug mode with [SM_DISABLE_DEBUG]
+
 You load the JSON txt file with [SMLOADCONFIG_StateMachine1] where StateMachine1 is the filename (.txt is appended automatically).
 
 Define your variables with cutoffs (and sometimes you'll want a min and max). Special variables are vigour, depth, speed, and hispleasure. These variables are pulled from other sources. You can modify the value of hispleasure, but you cannot modify the values for the other special variables. Any other variables (like herpleasure or streak) you will have to change the value of yourself by using effects in your states.
