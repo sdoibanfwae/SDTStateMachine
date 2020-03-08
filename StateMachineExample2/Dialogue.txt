@@ -1,0 +1,29 @@
+﻿all:"CLEAR"
+
+start:"[nexttest]hi![SHOW_PENIS][SHOW_BALLS]testing!"{"style":"Thought"}
+nexttest:"loading position[nexttest2][CLEAN_CUM][ANIMTOOLS_ATV_Missionary_V2table][SMLOADCONFIG_StateMachine2][ANIMTOOLSSETVOICECHAR4][SETVAR_voice_KYANNA]"{"style":"Thought"}
+
+sm_not_loaded:"sm_not_loaded"
+
+sobig:"it's so big!"
+toothick:"fuck, your dick is too thick!"
+toodeep:"don't go so deep!"
+monsterdepth:"FUCK! THAT'S WAY TOO DEEP!"
+toomuchdick:"YOU'RE A MONSTER!"
+
+now_herpleasure_high:"Oh baby, I'm getting close!"
+herprecum:"I'M GONNA CUM!!!"{"sm_herpleasure_cumming_times":0}
+now_herprecum:"I'M GONNA CUM!!!"{"sm_herpleasure_cumming_times":0}
+herprecum:"I'M GONNA CUM AGAIN!!!"{"sm_herpleasure_cumming_times":">0"}
+now_herprecum:"I'M GONNA CUM AGAIN!!!"{"sm_herpleasure_cumming_times":">0"}
+
+herprecumplease:"Please fuck me hard! I'm gonna cum!"
+now_herprecumplease:"Please fuck me hard! I'm gonna cum!"
+herprecumfaster:"Fuck me faster! I'm gonna cum!"
+now_herprecumfaster:"Fuck me faster! I'm gonna cum!"
+herprecumdeeper:"Deeper, baby! I'm gonna cum!"
+now_herprecumdeeper:"Deeper, baby! I'm gonna cum!"
+
+now_hercumming:"[ANIMTOOLSDISABLEHUNNIESOUNDS][SETVAR_da.breathPercentage_0][SETVAR_da.oxygenPercentage_0][SHOCK_10000_85][RIGHT_ARM_LOOSE][*voice*_CLIMAX]AAHHHH!ББББББ AAAHHHH!!ББББББ AAAHHHH!!!ББББББ FUCK!!!ББББББ I'M CUMMING!!!ББББББ OH MY GOD *YOU* IT'S SO GOOD!ББББББ AAAAHHHH!!! ББББББББББББББББББББББББ[ANIMTOOLSENABLEHUNNIESOUNDS]"
+
+small_penis_true:"haha!"
