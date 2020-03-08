@@ -67,8 +67,11 @@ package flash
 
 	var cData;
 	var cacheCData;
+	var debug;
 
 	var patternforload:RegExp = new RegExp("^SMLOADCONFIG_", "");
+	var patternfor_enable_debug:RegExp = new RegExp("^SM_ENABLE_DEBUG$", "");
+	var patternfor_disable_debug:RegExp = new RegExp("^SM_DISABLE_DEBUG$", "");
 
 	public function objectLength(myObject:Object):int {
  		var cnt:int=0;
@@ -80,6 +83,12 @@ package flash
 
 	public function log(message:String) {
 		g.dialogueControl.advancedController.outputLog("StateMachine: "+message);
+		if(debug)
+			alert(message);
+	}
+
+	public function alert(message:String) {
+		main.updateStatusCol(message,"#FF0000");
 	}
 	
 	public class StatsTracker {
@@ -696,6 +705,14 @@ package flash
 
 					g.dialogueControl.nextWord();
 					return true;
+				}
+				else if(patternfor_enable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
+					debug=true;
+					log("debug mode enabled");
+				}
+				else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
+					log("debug mode disabled");
+					debug=false;
 				}
 			}
 		}
