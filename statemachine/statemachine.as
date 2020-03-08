@@ -73,6 +73,8 @@ package flash
 	var debug;
 
 	var patternforload:RegExp = new RegExp("^SMLOADCONFIG_", "");
+	var patternfor_enable_debug:RegExp = new RegExp("^SM_ENABLE_DEBUG$", "");
+	var patternfor_disable_debug:RegExp = new RegExp("^SM_DISABLE_DEBUG$", "");
 
 	public function objectLength(myObject:Object):int {
  		var cnt:int=0;
@@ -260,7 +262,7 @@ package flash
 				lasttime:0,
 				totaltime:0,
 				times:0,
-				chances:0.5
+				chances:0.1
 			};
 			return states[name];
 		}
@@ -344,7 +346,7 @@ package flash
 			var p = getStateProperties(name);
 
 			if(now) {
-				log("triggerState "+name+", "+now);
+				log("triggerState "+name+", now");
 				p.starttime = now_seconds;
 				p.lasttime = now_seconds;
 				p.times++;
@@ -355,6 +357,7 @@ package flash
 				g.dialogueControl.buildState("now_"+name, 200);
 				g.dialogueControl.buildState(name, 100);
 			} else if( Math.random() * 100 < p.chances ) {
+				log("triggerState "+name+", repeat");
 				triggerState(p, name, now, old);
 				g.dialogueControl.buildState(name, 20);
 			}
@@ -368,6 +371,18 @@ package flash
 		public function updateVariable(name, variable)
 		{
 			var val = variable.value;
+
+			if( variable.hasOwnProperty('conditions') ) {
+				val = 0;
+				for(var k in variable.conditions) {
+					if(!variable.conditions.hasOwnProperty(k)) continue;
+					var c = variable.conditions[k];
+					var i = checkRequirements(c, k);
+					val += i ? 1 : 0;
+				}
+				variable.value = val;
+			}
+
 			if( variable.hasOwnProperty('min') ) {
 				variable.value = val = Math.max( val, variable.min );
 			}
@@ -388,6 +403,7 @@ package flash
 					result = k;
 				}
 			}
+
 			var old = variable.state;
 			variable.state = result;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name] = result;
@@ -452,7 +468,7 @@ package flash
 				if( ret==0 ) return 0;
 				score += ret;
 			}
-			return score;
+			return score * state.priority;
 		}
 
 		public function updateState()
@@ -533,7 +549,7 @@ package flash
 					for(var k in props.variables[name]) {
 						if(!props.variables[name].hasOwnProperty(k)) continue;
 						v[k] = props.variables[name][k];
-						if(k != 'cutoffs' && k != 'state') v[k] = Number(v[k]);
+						//if( !k in != 'cutoffs' && k != 'state' && k != 'conditions') v[k] = Number(v[k]);
 					}
 
 					variables[name] = v;
@@ -541,7 +557,7 @@ package flash
 				//variables_values = props.variables_values;
 			} catch(ex) {
 				trace("failed to load json data: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
-				log("failed to load json data: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
+				alert("failed to load json data: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
 			}
 
 			InitDefaults();
@@ -707,19 +723,20 @@ package flash
 					g.dialogueControl.nextWord();
 					return true;
 				}
-			}
-			else if(patternfor_enable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
+				else if(patternfor_enable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
 					debug=true;
 					log("debug mode enabled");
 					g.dialogueControl.nextWord();
 					return true;
+				}
+					else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
+					log("debug mode disabled");
+					debug=false;
+					g.dialogueControl.nextWord();
+					return true;
+				}
 			}
-			else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
-				log("debug mode disabled");
-				debug=false;
-				g.dialogueControl.nextWord();
-				return true;
-			}
+			
 		}
 
 		public function doUpdate(a)
