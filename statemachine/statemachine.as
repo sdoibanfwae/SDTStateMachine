@@ -709,10 +709,14 @@ package flash
 				else if(patternfor_enable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
 					debug=true;
 					log("debug mode enabled");
+					g.dialogueControl.nextWord();
+					return true;
 				}
 				else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
 					log("debug mode disabled");
 					debug=false;
+					g.dialogueControl.nextWord();
+					return true;
 				}
 			}
 		}
