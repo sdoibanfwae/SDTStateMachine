@@ -1,7 +1,7 @@
 ﻿all:"CLEAR"
 
 start:"[nexttest]hi![SHOW_PENIS][SHOW_BALLS]testing!"{"style":"Thought"}
-nexttest:"loading position[nexttest2][CLEAN_CUM][ANIMTOOLS_ATV_Missionary_V2table][SMLOADCONFIG_StateMachine1][ANIMTOOLSSETVOICECHAR4][SETVAR_voice_KYANNA]"{"style":"Thought"}
+nexttest:"loading position[nexttest2][CLEAN_CUM][ANIMTOOLS_ATV_Missionary_V2table][SM_ENABLE_DEBUG][SMLOADCONFIG_StateMachine1][ANIMTOOLSSETVOICECHAR4][SETVAR_voice_KYANNA]"{"style":"Thought"}
 
 sm_not_loaded:"sm_not_loaded"
 
