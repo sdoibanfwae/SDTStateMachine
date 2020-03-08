@@ -14,6 +14,9 @@ should you be able to make a set of requirements into a variable? like variable 
 	maybe it'd instead be called conditions, and the value of the variable would be the number of conditions currently being met? it should share code with the requirements check for states
 	"too_much_dick": { conditions: {"penis_girth":["huge", "monster"], "depth":["too_deep", "monster"] }, "cutoffs":{ "toomuch": 1, "waytoomuch": 2 } }
 	and then a state could have requirements: {contact:["true"] }
+	if no cutoffs, then default to just >=1 means true
+	maybe requirements and conditions should support an array for each variable, or an object, so you could set a points for each value
+	states could also support conditions instead of requirements? so it only needs to match 1? or remove requirements and just use conditions with a minimum points? default minimum points to the number of conditions?
 
 IMPORTCONFIG - would work like LOADCONFIG except it adds to the current config instead of replacing
 */
@@ -70,8 +73,6 @@ package flash
 	var debug;
 
 	var patternforload:RegExp = new RegExp("^SMLOADCONFIG_", "");
-	var patternfor_enable_debug:RegExp = new RegExp("^SM_ENABLE_DEBUG$", "");
-	var patternfor_disable_debug:RegExp = new RegExp("^SM_DISABLE_DEBUG$", "");
 
 	public function objectLength(myObject:Object):int {
  		var cnt:int=0;
@@ -570,7 +571,7 @@ package flash
 
 			for(var k in variables) {
 				if(!variables.hasOwnProperty(k)) continue;
-				if( !variables[k].hasOwnProperty('cutoffs') ) continue;
+				if( !variables[k].hasOwnProperty('cutoffs') ) variables[k].cutoffs = { "true": 1 };
 				var cutoffs = variables[k].cutoffs;
 				for(var v in cutoffs) {
 					if( !cutoffs.hasOwnProperty(v) ) continue;
@@ -706,18 +707,18 @@ package flash
 					g.dialogueControl.nextWord();
 					return true;
 				}
-				else if(patternfor_enable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
+			}
+			else if(patternfor_enable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
 					debug=true;
 					log("debug mode enabled");
 					g.dialogueControl.nextWord();
 					return true;
-				}
-				else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
-					log("debug mode disabled");
-					debug=false;
-					g.dialogueControl.nextWord();
-					return true;
-				}
+			}
+			else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
+				log("debug mode disabled");
+				debug=false;
+				g.dialogueControl.nextWord();
+				return true;
 			}
 		}
 
