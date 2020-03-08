@@ -74,7 +74,7 @@
 			"actions": ["[ARMS_HIS_LEGS][RIGHT_ARM_LOOSE][SETVAR_da.breathPercentage_0]", "[SHOCK_10000_85][ARMS_HIS_LEGS][RIGHT_ARM_LOOSE][SETVAR_da.breathPercentage_0]", "[ADD_TEARS][ARMS_HIS_LEGS][RIGHT_ARM_LOOSE][SETVAR_da.breathPercentage_0]", "[WINCE_500][ARMS_HIS_LEGS][RIGHT_ARM_LOOSE][SETVAR_da.breathPercentage_0]"],
 			"effects": {
 				"herpleasure": 7,
-				"hispleasure": 7,
+				"hispleasure": 3,
 				"streak": 1
 			},
 			"chances": 5
@@ -101,7 +101,7 @@
 			"actions": ["[ARMS_BACK][SETVAR_da.breathPercentage_50]"],
 			"effects": {
 				"herpleasure": 5,
-				"hispleasure": 2,
+				"hispleasure": 1,
 				"streak": 3
 			},
 			"chances": 2
@@ -115,7 +115,7 @@
 			"actions": ["[ARMS_HIS_LEGS][SETVAR_da.breathPercentage_0]"],
 			"effects": {
 				"herpleasure": 6,
-				"hispleasure": 5,
+				"hispleasure": 2,
 				"streak": 5
 			},
 			"chances": 2
@@ -130,7 +130,7 @@
 			"actions": ["[SETVAR_da.breathPercentage_0]"],
 			"effects": {
 				"herpleasure": 7,
-				"hispleasure": 6,
+				"hispleasure": 3,
 				"streak": 5
 			},
 			"chances": 2
@@ -151,7 +151,7 @@
 			},
 			"actions": ["[ARMS_BACK]"],
 			"effects": {
-				"herpleasure": -50,
+				"herpleasure": -1,
 				"hispleasure": -300,
 				"streak": -20
 			},
@@ -176,7 +176,7 @@
 			"interruptable": "false",
 			"effects": {
 				"herpleasure": 3,
-				"hispleasure": 2,
+				"hispleasure": 1,
 				"streak": 5
 			},
 			"chances": 2
@@ -192,7 +192,7 @@
 			"actions": ["[SETVAR_da.breathPercentage_0]"],
 			"effects": {
 				"herpleasure": 4,
-				"hispleasure": 2,
+				"hispleasure": 1,
 				"streak": 5
 			}
 		},
@@ -239,12 +239,12 @@
 		},
 		"herpleasure": {
 			"min": 0,
-			"max": 500,
+			"max": 200,
 			"cutoffs": {
 				"low": 1,
-				"high": 250,
-				"precum": 400,
-				"cumming": 500
+				"high": 30,
+				"precum": 60,
+				"cumming": 100
 			}
 		},
 		"hispleasure": {
