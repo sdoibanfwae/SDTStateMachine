@@ -27,7 +27,7 @@
 
 # Writing Dialogs
 
-Check the example for how to use it. The dialog uses a trigger to load the config JSON txt file. Use The JSON Validator to verify that your JSON is correctly formatted.
+Check the example for how to use it. The dialog uses a trigger to load the config JSON txt file. Use The JSON Validator to verify that your JSON is correctly formatted. https://jsonlint.com/
 
 You load the JSON txt file with [SMLOADCONFIG_StateMachine1] where StateMachine1 is the filename (.txt is appended automatically).
 
