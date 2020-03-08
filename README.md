@@ -2,69 +2,28 @@
 
 # Installation
 
-download sby loaderpack https://www.undertow.club/downloads/sby-loaderpack.4591/
-
-extract the sby_loader_pack zip file
-
----
-
----
-
-download Pim_gd's DialogueActions https://www.undertow.club/threads/pim_gds-mods-dialogueactions-v4-08-15-jan-2017.5889/
-
-save SDTDialogueActions swf file in sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\
-
-add SDTDialogueActionsv4.08.swf to the bottom of sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\Mods.txt
-
----
-
----
-
-download MoreTriggers https://www.undertow.club/downloads/moretriggers.2840/
-
-extract the MoreTriggers zip file into sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\
-
-add MoreTriggers v2.2/MoreTriggersv2.2.mod to the bottom of sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\Mods.txt
-
----
-
----
-
-download HuniePop Audio Triggers https://www.undertow.club/downloads/huniepop-audio-triggers.2885/
-
-extract the HuniePop Audio Triggers zip file into sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\
-
-add HuniePopAudioTriggers v1.11/HuniePopAudioTriggersv1.11.mod to the bottom of sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\Mods.txt
-
----
-
----
-
-download zip of SDTStateMachine https://github.com/sdoibanfwae/SDTStateMachine (or use git clone if you know how)
-
-from SDTStateMachine, put the statemachine folder into sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\
-
-add statemachine/statemachine.swf to the bottom of sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\Mods.txt
-
-from SDTStateMachine, put the StateMachineExample1 into sby_loader_pack_11_545d\Loader5.45\Mods\
-
-add StateMachineExample1:StateMachineExample1 to sby_loader_pack_11_545d\Loader5.45\Mods\CharacterFolders.txt
-
----
-
----
-
-now run sby_loader_pack_11_545d/play SDT Loader
-
-wait for SDT to finish loading all the mods
-
-open the bottom menu (press Y on your keyboard)
-
-click the choose character button on the left side of the menu
-
-click on StateMachineExample1 (probably at the end, the thumbnail is a picture of Zelda)
-
-enjoy!
+1. download sby loaderpack https://www.undertow.club/downloads/sby-loaderpack.4591/
+   * extract the sby_loader_pack zip file
+1. download Pim_gd's DialogueActions https://www.undertow.club/threads/pim_gds-mods-dialogueactions-v4-08-15-jan-2017.5889/
+    * save SDTDialogueActions swf file in sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\
+    * add SDTDialogueActionsv4.08.swf to the bottom of sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\Mods.txt
+1. download MoreTriggers https://www.undertow.club/downloads/moretriggers.2840/
+    * extract the MoreTriggers zip file into sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\
+    * add MoreTriggers v2.2/MoreTriggersv2.2.mod to the bottom of sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\Mods.txt
+1. download HuniePop Audio Triggers https://www.undertow.club/downloads/huniepop-audio-triggers.2885/
+    * extract the HuniePop Audio Triggers zip file into sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\
+    * add HuniePopAudioTriggers v1.11/HuniePopAudioTriggersv1.11.mod to the bottom of sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\Mods.txt
+1. download zip of SDTStateMachine https://github.com/sdoibanfwae/SDTStateMachine (or use git clone if you know how)
+    * from SDTStateMachine, put the statemachine folder into sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\
+    * add statemachine/statemachine.swf to the bottom of sby_loader_pack_11_545d\Loader5.45\Mods\$INIT$\Mods.txt
+    * from SDTStateMachine, put the StateMachineExample1 into sby_loader_pack_11_545d\Loader5.45\Mods\
+    * add StateMachineExample1:StateMachineExample1 to sby_loader_pack_11_545d\Loader5.45\Mods\CharacterFolders.txt
+1. now run sby_loader_pack_11_545d/play SDT Loader
+    * wait for SDT to finish loading all the mods
+    * open the bottom menu (press Y on your keyboard)
+    * click the choose character button on the left side of the menu
+    * click on StateMachineExample1 (probably at the end, the thumbnail is a picture of Zelda)
+1. enjoy!
 
 # Writing Dialogs
 
