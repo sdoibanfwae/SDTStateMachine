@@ -25,6 +25,10 @@
     * click on StateMachineExample1 (probably at the end, the thumbnail is a picture of Zelda)
 1. enjoy!
 
+# Discussion Thread
+
+https://www.undertow.club/threads/statemachine-a-new-way-to-write-dialogues.14459/
+
 # Writing Dialogs
 
 Check the example for how to use it. The dialog uses a trigger to load the config JSON txt file. Use The JSON Validator to verify that your JSON is correctly formatted. https://jsonlint.com/
