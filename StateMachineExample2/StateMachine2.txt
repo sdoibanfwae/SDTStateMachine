@@ -5,10 +5,10 @@
 				"herpleasure": ["precum"]
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0][RIGHT_ARM_LOOSE]"],
-			"chances": 5,
+			"chances": 15,
 			"interrupt": true,
 			"interruptable": false,
-			"priority": 150,
+			"priority": 500,
 			"effects": {
 				"herpleasure": 7,
 				"hispleasure": 7,
@@ -18,14 +18,13 @@
 		"herprecumplease": {
 			"requirements": {
 				"herpleasure": ["precum"],
-				"depth": ["none", "shallow"],
-				"speed": ["none", "slow"]
+				"rough": ["none"]
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0][RIGHT_ARM_LOOSE]"],
-			"chances": 5,
+			"chances": 15,
 			"interrupt": true,
 			"interruptable": false,
-			"priority": 150
+			"priority": 500
 		},
 		"herprecumfaster": {
 			"requirements": {
@@ -33,10 +32,10 @@
 				"speed": ["none", "slow"]
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0][RIGHT_ARM_LOOSE]"],
-			"chances": 5,
+			"chances": 15,
 			"interrupt": true,
 			"interruptable": false,
-			"priority": 150
+			"priority": 500
 		},
 		"herprecumdeeper": {
 			"requirements": {
@@ -44,10 +43,10 @@
 				"depth": ["shallow"]
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0][RIGHT_ARM_LOOSE]"],
-			"chances": 5,
+			"chances": 15,
 			"interrupt": true,
 			"interruptable": false,
-			"priority": 150
+			"priority": 500
 		},
 		"hercumming": {
 			"requirements": {
@@ -55,18 +54,17 @@
 			},
 			"interrupt": true,
 			"interruptable": false,
-			"priority": 175,
+			"priority": 1000,
 			"effects": {
 				"herpleasure": -10000,
 				"hispleasure": 100,
 				"herorgasms": 1,
-				"mood": 0.5
+				"mood": 0.4
 			}
 		},
 		"out": {
 			"requirements": {
-				"depth": ["none"],
-				"herpleasure": ["none", "low", "high"]
+				"out": ["true"]
 			},
 			"actions": ["[ARMS_BACK]"],
 			"effects": {
@@ -75,12 +73,53 @@
 			},
 			"chances": 1
 		},
+		"rough": {
+			"requirements": {
+				"rough": ["true"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0]"],
+			"effects": {
+				"herpleasure": 5,
+				"hispleasure": 2,
+				"mood": 0.01
+			},
+			"priority": 150,
+			"chances": 2
+		},
+		"be_careful": {
+			"requirements": {
+				"too_rough": ["almost"],
+				"rough": ["true"],
+				"huge_penis": ["true"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0]"],
+			"effects": {
+				"herpleasure": 6,
+				"hispleasure": 2,
+				"mood": 0.02
+			},
+			"priority": 150,
+			"chances": 2
+		},
+		"too_rough": {
+			"requirements": {
+				"too_rough": ["true"]
+			},
+			"actions": ["[SETVAR_da.breathPercentage_0]"],
+			"effects": {
+				"herpleasure": 3,
+				"hispleasure": 3,
+				"mood": -0.01
+			},
+			"priority": 150,
+			"chances": 3
+		},
 		"sobig": {
 			"requirements": {
 				"depth": ["deep", "verydeep"],
-				"penis_length": ["big", "huge", "monster"],
-				"penis_girth": ["big", "huge"],
-				"speed": ["slow", "fast", "veryfast"]
+				"big_penis": ["true"],
+				"huge_penis": ["none"],
+				"moving": ["true"]
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0]"],
 			"effects": {
@@ -88,14 +127,13 @@
 				"hispleasure": 2,
 				"mood": 0.01
 			},
-			"chances": 3
+			"chances": 2
 		},
 		"sohuge": {
 			"requirements": {
 				"depth": ["deep", "verydeep"],
-				"penis_length": ["huge", "monster"],
-				"penis_girth": ["huge"],
-				"speed": ["slow", "fast", "veryfast"]
+				"huge_penis": ["true"],
+				"moving": ["true"]
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0]"],
 			"effects": {
@@ -103,21 +141,13 @@
 				"hispleasure": 3,
 				"mood": 0.01
 			},
-			"chances": 3
+			"chances": 2
 		},
 		"toothick": {
 			"requirements": {
 				"depth": ["shallow", "deep", "verydeep"],
 				"penis_girth": ["monster"],
-				"speed": ["slow", "fast", "veryfast"]
-			},
-			"actions": ["[SETVAR_da.breathPercentage_0]"]
-		},
-		"toomuchdick": {
-			"requirements": {
-				"depth": ["toodeep", "monster"],
-				"penis_girth": ["huge", "monster"],
-				"speed": ["slow", "fast", "veryfast"]
+				"moving": ["true"]
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0]"]
 		},
@@ -145,15 +175,7 @@
 			},
 			"actions": ["[SETVAR_da.breathPercentage_0]"]
 		},
-		"speed_veryfast": {
-			"actions": ["[SETVAR_da.breathPercentage_0]"],
-			"effects": {
-				"herpleasure": 3,
-				"hispleasure": 2,
-				"mood": 0.01
-			}
-		},
-		"speed_fast": {
+		"rough_true": {
 			"actions": ["[SETVAR_da.breathPercentage_50]"],
 			"effects": {
 				"herpleasure": 2,
@@ -161,7 +183,7 @@
 				"mood": 0.01
 			}
 		},
-		"speed_slow": {
+		"moving_true": {
 			"effects": {
 				"herpleasure": 1,
 				"hispleasure": 0
@@ -207,6 +229,11 @@
 				"monster": 11
 			}
 		},
+		"out": {
+			"conditions": {
+				"depth": ["none"]
+			}
+		},
 		"penis_length": {
 			"cutoffs": {
 				"small": 1,
@@ -229,45 +256,30 @@
 			"conditions": {
 				"penis_length": ["small"],
 				"penis_girth": ["small"]
-			},
-			"cutoffs": {
-				"true": 2
 			}
 		},
 		"big_penis": {
 			"conditions": {
 				"penis_length": ["big", "huge", "monster"],
 				"penis_girth": ["big", "huge", "monster"]
-			},
-			"cutoffs": {
-				"true": 2
 			}
 		},
 		"huge_penis": {
 			"conditions": {
 				"penis_length": ["huge", "monster"],
 				"penis_girth": ["huge", "monster"]
-			},
-			"cutoffs": {
-				"true": 2
 			}
 		},
 		"monster_penis": {
 			"conditions": {
 				"penis_length": ["monster"],
 				"penis_girth": ["monster"]
-			},
-			"cutoffs": {
-				"true": 2
 			}
 		},
 		"stretching": {
 			"conditions": {
 				"depth": ["verydeep", "toodeep", "monster"],
 				"huge_penis": ["true"]
-			},
-			"cutoffs": {
-				"true": 2
 			}
 		},
 		"mood": {
@@ -281,14 +293,6 @@
 			"min": -1,
 			"max": 1
 		},
-		"not_ahegao": {
-			"conditions": {
-				"mood": ["angry", "upset", "normal", "happy"]
-			},
-			"cutoffs": {
-				"true": 1
-			}
-		},
 		"speed": {
 			"cutoffs": {
 				"slow": 5,
@@ -296,14 +300,39 @@
 				"veryfast": 70
 			}
 		},
+		"moving": {
+			"conditions": {
+				"speed": ["slow", "fast", "veryfast"]
+			}
+		},
+		"rough": {
+			"conditions": {
+				"speed": ["fast", "veryfast"],
+				"vigour": ["hard", "veryhard"],
+				"big_penis": ["true"],
+				"depth": ["verydeep", "toodeep", "monster"]
+			}
+		},
+		"too_rough": {
+			"conditions": {
+				"speed": ["veryfast"],
+				"vigour": ["veryhard"],
+				"huge_penis": ["true"],
+				"depth": ["toodeep", "monster"]
+			},
+			"cutoffs": {
+				"almost": 3,
+				"true": 4
+			}
+		},
 		"herpleasure": {
 			"min": 0,
-			"max": 200,
+			"max": 500,
 			"cutoffs": {
 				"low": 1,
-				"high": 30,
-				"precum": 70,
-				"cumming": 120
+				"high": 100,
+				"precum": 300,
+				"cumming": 400
 			}
 		},
 		"hispleasure": {

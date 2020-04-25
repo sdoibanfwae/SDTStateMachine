@@ -5,37 +5,49 @@ nexttest:"loading position[nexttest2][CLEAN_CUM][ANIMTOOLS_ATV_Missionary_V2tabl
 
 sm_not_loaded:"sm_not_loaded"
 
+mood_angry:"I'm angry at you!"
+mood_upset:"I'm upset with you!"
+mood_happy:"I love you"
+mood_ahegao:"FUCK ME! I'LL DO ANYTHING FOR YOU!"
+
+rough:"Yes! Fuck me hard like that!"
+be_careful:"careful baby, I can't take any more!"
+be_careful:"OH GOD! YOU KNOW MY LIMITS PERFECTLY! NOW BREAK THEM!"{"check": {"sm_mood":"ahegao"}}
+
 sobig:"it's so big!"
 sohuge:"oh fuck you're huge!"
 stretching_true:"you're stretching me out!"
 
+hilted_true:"it's all the way in!"{"check": {"sm_huge_penis":"true"} }
+hilted_true:"that's it?"{"check": {"sm_small_penis":"true"} }
+
 toothick:"fuck, fuck, fuck! your dick is too thick!"{"check": {"sm_mood":"angry"}}
 depth_toodeep:"don't go so deep!"{"check": {"sm_mood":"angry"}}
 depth_monster:"FUCK! THAT'S WAY TOO DEEP!"{"check": {"sm_mood":"angry"}}
-toomuchdick:"YOU'RE A MONSTER!"{"check": {"sm_mood":"angry"}}
-toomuchdick:"I CAN'T TAKE IT!"{"check": {"sm_mood":"angry"}}
+too_rough:"THAT'S TOO MUCH!"{"check": {"sm_mood":"angry"}}
+too_rough:"I CAN'T TAKE IT!"{"check": {"sm_mood":"angry"}}
 
 toothick:"fuck, fuck, fuck! your dick is too thick!"{"check": {"sm_mood":"upset"}}
 depth_toodeep:"don't go so deep!"{"check": {"sm_mood":"upset"}}
 depth_monster:"FUCK! THAT'S WAY TOO DEEP!"{"check": {"sm_mood":"upset"}}
-toomuchdick:"YOU'RE A MONSTER!"{"check": {"sm_mood":"upset"}}
-toomuchdick:"I CAN'T TAKE IT!"{"check": {"sm_mood":"upset"}}
+too_rough:"THAT'S TOO MUCH!"{"check": {"sm_mood":"upset"}}
+too_rough:"I CAN'T TAKE IT!"{"check": {"sm_mood":"upset"}}
 
 toothick:"fuck, fuck, fuck! your dick is too thick!"{"check": {"sm_mood":"normal"}}
 depth_toodeep:"don't go so deep!"{"check": {"sm_mood":"normal"}}
 depth_monster:"FUCK! THAT'S WAY TOO DEEP!"{"check": {"sm_mood":"normal"}}
-toomuchdick:"YOU'RE A MONSTER!"{"check": {"sm_mood":"normal"}}
-toomuchdick:"I CAN'T TAKE IT!"{"check": {"sm_mood":"normal"}}
+too_rough:"THAT'S TOO MUCH!"{"check": {"sm_mood":"normal"}}
+too_rough:"I CAN'T TAKE IT!"{"check": {"sm_mood":"normal"}}
 
 toothick:"fuck, fuck, fuck! your dick is so thick!"{"check": {"sm_mood":"happy"}}
 depth_toodeep:"it hurts when you go so deep!"{"check": {"sm_mood":"happy"}}
 depth_monster:"FUCK! THAT'S SOOO DEEP!"{"check": {"sm_mood":"happy"}}
-toomuchdick:"I'LL TRY TO TAKE IT FOR YOU BABY!"{"check": {"sm_mood":"happy"}}
+too_rough:"I'LL TRY TO TAKE IT FOR YOU BABY!"{"check": {"sm_mood":"happy"}}
 
 toothick:"YES! SO THICK!"{"check": {"sm_mood":"ahegao"}}
 depth_toodeep:"YES FUCK ME DEEP LIKE THAT!"{"check": {"sm_mood":"ahegao"}}
 depth_monster:"YOU'RE IN MY STOMACH!"{"check": {"sm_mood":"ahegao"}}
-toomuchdick:"DADDY! DADDY! DESTROY MY LITTLE PUSSY!"{"check": {"sm_mood":"ahegao"}}
+too_rough:"DADDY! DADDY! DESTROY MY LITTLE PUSSY!"{"check": {"sm_mood":"ahegao"}}
 
 now_herpleasure_high:"Oh baby, I'm getting close!"
 herprecum:"I'M GONNA CUM!!!"{"check": {"sm_herpleasure_cumming_times":0}}
