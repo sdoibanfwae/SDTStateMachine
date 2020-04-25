@@ -98,4 +98,4 @@ If you don't specify any cutoffs, then it is assumed that the value is "none" un
 		}
 ```
 
-Condition variables are more reusable than states, so they can help you keep the states simpler. See StateMachineExample2 for more examples.
+Condition variables are more reusable than states, so they can help you keep the states simpler. Also I no longer recommend using "hilt" as a value for depth, instead use the separate "hilted" variable. See StateMachineExample2 for more examples.
