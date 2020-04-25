@@ -85,13 +85,15 @@ package flash
 	}
 
 	public function log(message:String) {
-		g.dialogueControl.advancedController.outputLog("StateMachine: "+message);
 		if(debug)
-			alert(message);
+			alert(message, "#00FF00");
+		else
+			g.dialogueControl.advancedController.outputLog("StateMachine: "+message);
 	}
 
-	public function alert(message:String) {
-		main.updateStatusCol(message,"#FF0000");
+	public function alert(message:String, color:String="#FF0000") {
+		main.updateStatusCol(message, color);
+		g.dialogueControl.advancedController.outputLog("StateMachine: "+message);
 	}
 	
 	public class StatsTracker {
@@ -440,7 +442,9 @@ package flash
 
 				try {
 					updateVariable(k, variables[k]);
-				} catch(e) {}
+				} catch(e) {
+					alert("failed to update variable " + k + " " + e);
+				}
 			}
 		}
 
@@ -468,7 +472,8 @@ package flash
 				if( ret==0 ) return 0;
 				score += ret;
 			}
-			return score * state.priority;
+			if(score<=0) return 0;
+			return score + state.priority;
 		}
 
 		public function updateState()
@@ -500,30 +505,30 @@ package flash
 			try {
 				updateVariables();
 			} catch(ex) {
-				log("failed to updateVariables: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
+				alert("failed to updateVariables: " + ex);
 			}
 			try {
 				updateState();
 			} catch(ex) {
-				log("failed to updateState: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
+				alert("failed to updateState: " + ex);
 			}
 		}
 
 		public function InitData(event:*)
 		{
-			log("InitData");
 			try {
 				var data:String = event.target.data;
 				var props;
 				props = JSON.decode(data);
 
-				log("parsed JSON! encode == "+JSON.encode(props) );
+				//log("parsed JSON! encode == "+JSON.encode(props) );
 
 				//states = props.states;
 				states = {};
 
 				for(var k in props.states) {
 					if(!props.states.hasOwnProperty(k)) continue;
+					log("loading state "+k);
 					var p = getStateProperties(k);
 
 					var p2 = props.states[k];
@@ -540,32 +545,37 @@ package flash
 
 				for(var name in props.variables) {
 					if(!props.variables.hasOwnProperty(name)) continue;
+					log("loading variable "+name);
 					var v = {
 						value: 0,
-						cutoffs: {},
+						//cutoffs: {},
 						state: "none"
 					};
 
 					for(var k in props.variables[name]) {
 						if(!props.variables[name].hasOwnProperty(k)) continue;
 						v[k] = props.variables[name][k];
-						//if( !k in != 'cutoffs' && k != 'state' && k != 'conditions') v[k] = Number(v[k]);
 					}
 
 					variables[name] = v;
 				}
-				//variables_values = props.variables_values;
 			} catch(ex) {
-				trace("failed to load json data: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
-				alert("failed to load json data: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
+				alert("InitData failed to load json data: " + ex);
+				trace("InitData failed to load json data: " + ex);
 			}
 
-			InitDefaults();
+			try {
+				InitDefaults();
+			} catch(ex) {
+				alert("InitDefaults failed to load json data: " + ex);
+				trace("InitDefaults failed to load json data: " + ex);
+			}
+
+			log("loaded "+objectLength(states)+" states and "+objectLength(variables)+" variables");
 		}
 
 		public function InitDefaults(path:String = "", e:Event = null)
 		{
-			log("InitDefaults");
 			//log(path);
 			//log(e.toString());
 
@@ -573,9 +583,9 @@ package flash
 				if(!states.hasOwnProperty(k)) continue;
 				var p = getStateProperties(k);
 				var priority = p.priority / 100;
-				log("building states for "+k);
+				//log("building states for "+k);
 				g.dialogueControl.states[k] = new mydialogstateclass(int(80 * priority), 1);
-				log("built state for "+k);
+				//log("built state for "+k);
 				g.dialogueControl.states["now_"+k] = new mydialogstateclass(int(500 * priority), 2);
 				for(var k2 in states) {
 					if(!states.hasOwnProperty(k2) || k==k2) continue;
@@ -587,7 +597,13 @@ package flash
 
 			for(var k in variables) {
 				if(!variables.hasOwnProperty(k)) continue;
-				if( !variables[k].hasOwnProperty('cutoffs') ) variables[k].cutoffs = { "true": 1 };
+				
+				if( variables[k].hasOwnProperty('conditions') && !variables[k].hasOwnProperty('cutoffs') ) {
+					var cutoff_true = objectLength(variables[k].conditions);
+					//log(k+" has "+cutoff_true+" conditions");
+					variables[k].cutoffs = { "true": cutoff_true };
+				}
+				
 				var cutoffs = variables[k].cutoffs;
 				for(var v in cutoffs) {
 					if( !cutoffs.hasOwnProperty(v) ) continue;
