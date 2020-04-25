@@ -14,6 +14,9 @@ should you be able to make a set of requirements into a variable? like variable 
 	maybe it'd instead be called conditions, and the value of the variable would be the number of conditions currently being met? it should share code with the requirements check for states
 	"too_much_dick": { conditions: {"penis_girth":["huge", "monster"], "depth":["too_deep", "monster"] }, "cutoffs":{ "toomuch": 1, "waytoomuch": 2 } }
 	and then a state could have requirements: {contact:["true"] }
+	if no cutoffs, then default to just >=1 means true
+	maybe requirements and conditions should support an array for each variable, or an object, so you could set a points for each value
+	states could also support conditions instead of requirements? so it only needs to match 1? or remove requirements and just use conditions with a minimum points? default minimum points to the number of conditions?
 
 IMPORTCONFIG - would work like LOADCONFIG except it adds to the current config instead of replacing
 */
@@ -82,13 +85,15 @@ package flash
 	}
 
 	public function log(message:String) {
-		g.dialogueControl.advancedController.outputLog("StateMachine: "+message);
 		if(debug)
-			alert(message);
+			alert(message, "#00FF00");
+		else
+			g.dialogueControl.advancedController.outputLog("StateMachine: "+message);
 	}
 
-	public function alert(message:String) {
-		main.updateStatusCol(message,"#FF0000");
+	public function alert(message:String, color:String="#FF0000") {
+		main.updateStatusCol(message, color);
+		g.dialogueControl.advancedController.outputLog("StateMachine: "+message);
 	}
 	
 	public class StatsTracker {
@@ -259,7 +264,7 @@ package flash
 				lasttime:0,
 				totaltime:0,
 				times:0,
-				chances:0.5
+				chances:0.1
 			};
 			return states[name];
 		}
@@ -343,7 +348,7 @@ package flash
 			var p = getStateProperties(name);
 
 			if(now) {
-				log("triggerState "+name+", "+now);
+				log("triggerState "+name+", now");
 				p.starttime = now_seconds;
 				p.lasttime = now_seconds;
 				p.times++;
@@ -354,6 +359,7 @@ package flash
 				g.dialogueControl.buildState("now_"+name, 200);
 				g.dialogueControl.buildState(name, 100);
 			} else if( Math.random() * 100 < p.chances ) {
+				log("triggerState "+name+", repeat");
 				triggerState(p, name, now, old);
 				g.dialogueControl.buildState(name, 20);
 			}
@@ -367,6 +373,18 @@ package flash
 		public function updateVariable(name, variable)
 		{
 			var val = variable.value;
+
+			if( variable.hasOwnProperty('conditions') ) {
+				val = 0;
+				for(var k in variable.conditions) {
+					if(!variable.conditions.hasOwnProperty(k)) continue;
+					var c = variable.conditions[k];
+					var i = checkRequirements(c, k);
+					val += i ? 1 : 0;
+				}
+				variable.value = val;
+			}
+
 			if( variable.hasOwnProperty('min') ) {
 				variable.value = val = Math.max( val, variable.min );
 			}
@@ -387,6 +405,7 @@ package flash
 					result = k;
 				}
 			}
+
 			var old = variable.state;
 			variable.state = result;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name] = result;
@@ -423,7 +442,9 @@ package flash
 
 				try {
 					updateVariable(k, variables[k]);
-				} catch(e) {}
+				} catch(e) {
+					alert("failed to update variable " + k + " " + e);
+				}
 			}
 		}
 
@@ -451,7 +472,8 @@ package flash
 				if( ret==0 ) return 0;
 				score += ret;
 			}
-			return score;
+			if(score<=0) return 0;
+			return score + state.priority;
 		}
 
 		public function updateState()
@@ -483,30 +505,30 @@ package flash
 			try {
 				updateVariables();
 			} catch(ex) {
-				log("failed to updateVariables: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
+				alert("failed to updateVariables: " + ex);
 			}
 			try {
 				updateState();
 			} catch(ex) {
-				log("failed to updateState: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
+				alert("failed to updateState: " + ex);
 			}
 		}
 
 		public function InitData(event:*)
 		{
-			log("InitData");
 			try {
 				var data:String = event.target.data;
 				var props;
 				props = JSON.decode(data);
 
-				log("parsed JSON! encode == "+JSON.encode(props) );
+				//log("parsed JSON! encode == "+JSON.encode(props) );
 
 				//states = props.states;
 				states = {};
 
 				for(var k in props.states) {
 					if(!props.states.hasOwnProperty(k)) continue;
+					log("loading state "+k);
 					var p = getStateProperties(k);
 
 					var p2 = props.states[k];
@@ -523,32 +545,37 @@ package flash
 
 				for(var name in props.variables) {
 					if(!props.variables.hasOwnProperty(name)) continue;
+					log("loading variable "+name);
 					var v = {
 						value: 0,
-						cutoffs: {},
+						//cutoffs: {},
 						state: "none"
 					};
 
 					for(var k in props.variables[name]) {
 						if(!props.variables[name].hasOwnProperty(k)) continue;
 						v[k] = props.variables[name][k];
-						if(k != 'cutoffs' && k != 'state') v[k] = Number(v[k]);
 					}
 
 					variables[name] = v;
 				}
-				//variables_values = props.variables_values;
 			} catch(ex) {
-				trace("failed to load json data: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
-				log("failed to load json data: " + ex.name + ":" + ex.message + ":" + ex.at + ":" + ex.text);
+				alert("InitData failed to load json data: " + ex);
+				trace("InitData failed to load json data: " + ex);
 			}
 
-			InitDefaults();
+			try {
+				InitDefaults();
+			} catch(ex) {
+				alert("InitDefaults failed to load json data: " + ex);
+				trace("InitDefaults failed to load json data: " + ex);
+			}
+
+			log("loaded "+objectLength(states)+" states and "+objectLength(variables)+" variables");
 		}
 
 		public function InitDefaults(path:String = "", e:Event = null)
 		{
-			log("InitDefaults");
 			//log(path);
 			//log(e.toString());
 
@@ -556,9 +583,9 @@ package flash
 				if(!states.hasOwnProperty(k)) continue;
 				var p = getStateProperties(k);
 				var priority = p.priority / 100;
-				log("building states for "+k);
+				//log("building states for "+k);
 				g.dialogueControl.states[k] = new mydialogstateclass(int(80 * priority), 1);
-				log("built state for "+k);
+				//log("built state for "+k);
 				g.dialogueControl.states["now_"+k] = new mydialogstateclass(int(500 * priority), 2);
 				for(var k2 in states) {
 					if(!states.hasOwnProperty(k2) || k==k2) continue;
@@ -570,7 +597,13 @@ package flash
 
 			for(var k in variables) {
 				if(!variables.hasOwnProperty(k)) continue;
-				if( !variables[k].hasOwnProperty('cutoffs') ) continue;
+				
+				if( variables[k].hasOwnProperty('conditions') && !variables[k].hasOwnProperty('cutoffs') ) {
+					var cutoff_true = objectLength(variables[k].conditions);
+					//log(k+" has "+cutoff_true+" conditions");
+					variables[k].cutoffs = { "true": cutoff_true };
+				}
+				
 				var cutoffs = variables[k].cutoffs;
 				for(var v in cutoffs) {
 					if( !cutoffs.hasOwnProperty(v) ) continue;
@@ -712,13 +745,14 @@ package flash
 					g.dialogueControl.nextWord();
 					return true;
 				}
-				else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
+					else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
 					log("debug mode disabled");
 					debug=false;
 					g.dialogueControl.nextWord();
 					return true;
 				}
 			}
+			
 		}
 
 		public function doUpdate(a)

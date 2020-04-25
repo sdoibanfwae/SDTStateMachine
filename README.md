@@ -45,7 +45,7 @@ When a state is triggered, the state machine calls a line of dialog with the nam
 ```
 "rough": {
   "requirements": {
-    "depth": ["verydeep", "hilt"],
+    "depth": ["verydeep", "toodeep", "monster"],
     "speed": ["fast", "veryfast"],
     "herpleasure": ["none", "low", "high"]
   },
@@ -69,3 +69,37 @@ Variables get "pseudo-states", look at the example at like depth_hilt, depth_ver
 States (and pseudo-states from variables) also output variables you can use in the dialog. sm_statename_duration is how long the state has been active (this does not get wiped until the state is activated again). sm_statename_times is how many times the state has been entered. sm_statename_totaltime is how many seconds the state has been active in total.
 
 The interrupt property is still an experimental value, it kind of works but use it very sparingly. Interruptable doesn't work yet so currently everything is interruptable.
+
+Now in v2 you can also make condition variables. This is a variable whose value is based on the number of conditions that are met. For example
+
+```
+		"too_rough": {
+			"conditions": {
+				"speed": ["veryfast"],
+				"vigour": ["veryhard"],
+				"huge_penis": ["true"],
+				"depth": ["toodeep", "monster"]
+			},
+			"cutoffs": {
+				"almost": 3,
+				"true": 4
+			}
+		}
+```
+
+When less than 3 of the conditions are met then the value is "none", when 3 of the conditions are met then the value is "almost", and when 4 (or more) of the conditions are met then the value is "true".
+
+If you don't specify any cutoffs, then it is assumed that the value is "none" unless all of the conditions are met then the value is "true". See this "rough" condition variable as an example
+
+```
+		"rough": {
+			"conditions": {
+				"speed": ["fast", "veryfast"],
+				"vigour": ["hard", "veryhard"],
+				"big_penis": ["true"],
+				"depth": ["verydeep", "toodeep", "monster"]
+			}
+		}
+```
+
+Condition variables are more reusable than states, so they can help you keep the states simpler. Also I no longer recommend using "hilt" as a value for depth, instead use the separate "hilted" variable. See StateMachineExample2 for more examples.
