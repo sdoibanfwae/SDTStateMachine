@@ -269,8 +269,9 @@ package flash
 			return states[name];
 		}
 
-		public function writeStateProperties(name, props)
+		public function writeStateProperties(name, props, since)
 		{
+            g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_since"] = now_seconds - since;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_duration"] = now_seconds - props.starttime;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_times"] = props.times;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_totaltime"] = props.totaltime;
@@ -347,6 +348,7 @@ package flash
 		{
 			var p = getStateProperties(name);
 
+            var since = p.lasttime;
 			if(now) {
 				log("triggerState "+name+", now");
 				p.starttime = now_seconds;
@@ -367,7 +369,7 @@ package flash
 			p.totaltime += now_seconds - p.lasttime;
 			p.lasttime = now_seconds;
 
-			writeStateProperties(name, p);
+			writeStateProperties(name, p, since);
 		}
 
 		public function updateVariable(name, variable)
@@ -592,7 +594,7 @@ package flash
 					g.dialogueControl.states[k+"_to_"+k2] = new mydialogstateclass(int(800 * priority), 2);
 				}
 
-				writeStateProperties(k, p);
+				writeStateProperties(k, p, 0);
 			}
 
 			for(var k in variables) {
