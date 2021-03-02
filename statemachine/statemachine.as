@@ -270,8 +270,9 @@ package flash
 			return states[name];
 		}
 
-		public function writeStateProperties(name, props)
+		public function writeStateProperties(name, props, since)
 		{
+            g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_since"] = now_seconds - since;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_duration"] = now_seconds - props.starttime;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_times"] = props.times;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_totaltime"] = props.totaltime;
@@ -284,7 +285,6 @@ package flash
 
 		public function doStateActions(actions)
 		{
-            return;
 			if(!actions || actions.length==0) return;
 
 			var action = "";
@@ -349,6 +349,7 @@ package flash
 		{
 			var p = getStateProperties(name);
 
+            var since = p.lasttime;
 			if(now) {
 				log("triggerState "+name+", now");
 				p.starttime = now_seconds;
@@ -369,7 +370,7 @@ package flash
 			p.totaltime += now_seconds - p.lasttime;
 			p.lasttime = now_seconds;
 
-			writeStateProperties(name, p);
+			writeStateProperties(name, p, since);
 		}
 
 		public function updateVariable(name, variable)
@@ -594,7 +595,7 @@ package flash
 					g.dialogueControl.states[k+"_to_"+k2] = new mydialogstateclass(int(800 * priority), 2);
 				}
 
-				writeStateProperties(k, p);
+				writeStateProperties(k, p, 0);
 			}
 
 			for(var k in variables) {
@@ -680,6 +681,7 @@ package flash
 			animtools = main.animtools_comm;
 			if( ! animtools ) alert("animtools not found!");
 			dialogpatch = main.dialogpatch;
+			if( ! dialogpatch ) alert("dialogpatch not found!");
 
 			//g.dialogueControl.advancedController._dialogueDataStore["dt_recentdepth"] = 7;
 			//this.addEventListener(Event.ENTER_FRAME, doUpdate);
@@ -875,12 +877,13 @@ package flash
 
 		function testhitpoints() : Boolean
 		{
-
-			if( animtools.testhitpoints() )
-				return true;
-			else if((animtools.penisinmouthdisttrack + animtools.penisinmouthdisttrackhighest) / 2 < her.pos && animtools.penisinmouthdisttrack != 999999 && animtools.penisinmouthdisttrackhighest != -999999)
-				return true;
-			return false;
+			if( animtools ) {
+				if( animtools.testhitpoints() )
+					return true;
+				else if((animtools.penisinmouthdisttrack + animtools.penisinmouthdisttrackhighest) / 2 < her.pos && animtools.penisinmouthdisttrack != 999999 && animtools.penisinmouthdisttrackhighest != -999999)
+					return true;
+				return false;
+			}
 
 			/*var penisBmp:BitmapData = createBitmapData(g.him.penis);
 			var herBacksideBmp:BitmapData = createBitmapData(g.her.torso.backside);
