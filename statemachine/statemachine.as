@@ -31,8 +31,8 @@ package flash
 	import flash.geom.Point;
 	import flash.display.DisplayObject;
 	import flash.display.BitmapData;
-    import flash.geom.Transform;
-    import flash.geom.Matrix;
+	import flash.geom.Transform;
+	import flash.geom.Matrix;
 	//import JSON;
 	//using this https://github.com/mikechambers/as3corelib
 	import com.adobe.serialization.json.JSON;
@@ -272,7 +272,7 @@ package flash
 
 		public function writeStateProperties(name, props, since)
 		{
-            g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_since"] = now_seconds - since;
+			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_since"] = now_seconds - since;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_duration"] = now_seconds - props.starttime;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_times"] = props.times;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_totaltime"] = props.totaltime;
@@ -349,7 +349,7 @@ package flash
 		{
 			var p = getStateProperties(name);
 
-            var since = p.lasttime;
+			var since = p.lasttime;
 			if(now) {
 				log("triggerState "+name+", now");
 				p.starttime = now_seconds;
@@ -657,8 +657,8 @@ package flash
 	}
 
 
-    public dynamic class Main extends flash.display.MovieClip
-    {
+	public dynamic class Main extends flash.display.MovieClip
+	{
 		var her;
 		const modname : String = "statemachine"
 
@@ -847,7 +847,6 @@ package flash
 
 		function listchildren(p) : String
 		{
-
 			var names:String = "";
 			try {
 				names += "<"+p.name+">";
@@ -859,20 +858,20 @@ package flash
 			} catch(error:Error) {}
 			return names;
 		}
-        
+		
 		/*
 		//https://forums.adobe.com/thread/873737
-        private function checkForHit(a:BitmapData,b:BitmapData):Boolean {
-            return a.hitTest(new Point(0,0),0xff,b,new Point(0,0),0xff);
-        }
-        
-        private function createBitmapData(a:DisplayObject):BitmapData {
+		private function checkForHit(a:BitmapData,b:BitmapData):Boolean {
+			return a.hitTest(new Point(0,0),0xff,b,new Point(0,0),0xff);
+		}
+		
+		private function createBitmapData(a:DisplayObject):BitmapData {
 			var bmpd:BitmapData = new BitmapData(a.stage.stageWidth,a.stage.stageHeight,true,0x000000ff);
 			var currentTrans:Transform = a.transform;
 			var currentMat:Matrix = currentTrans.concatenatedMatrix;
 			bmpd.draw(a,currentMat);
 			return bmpd;
-        }
+		}
 		*/
 
 		function testhitpoints() : Boolean
@@ -950,6 +949,6 @@ package flash
 			//cMC.removeEventListener(Event.ENTER_FRAME, doUpdate);
 		}
 		
-    }
+	}
 }
 
