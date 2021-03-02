@@ -52,6 +52,7 @@ package flash
 	var g;
 	var eDOM;
 	var lProxy;
+	var animtools;
 	var deepestyet:Number = 0.0;
 	var recentdeepest = new StatsGroup("dt_depth");
 	var recentvigour = new StatsGroup("dt_vigour");
@@ -269,9 +270,8 @@ package flash
 			return states[name];
 		}
 
-		public function writeStateProperties(name, props, since)
+		public function writeStateProperties(name, props)
 		{
-            g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_since"] = now_seconds - since;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_duration"] = now_seconds - props.starttime;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_times"] = props.times;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name+"_totaltime"] = props.totaltime;
@@ -284,6 +284,7 @@ package flash
 
 		public function doStateActions(actions)
 		{
+            return;
 			if(!actions || actions.length==0) return;
 
 			var action = "";
@@ -348,7 +349,6 @@ package flash
 		{
 			var p = getStateProperties(name);
 
-            var since = p.lasttime;
 			if(now) {
 				log("triggerState "+name+", now");
 				p.starttime = now_seconds;
@@ -369,7 +369,7 @@ package flash
 			p.totaltime += now_seconds - p.lasttime;
 			p.lasttime = now_seconds;
 
-			writeStateProperties(name, p, since);
+			writeStateProperties(name, p);
 		}
 
 		public function updateVariable(name, variable)
@@ -594,7 +594,7 @@ package flash
 					g.dialogueControl.states[k+"_to_"+k2] = new mydialogstateclass(int(800 * priority), 2);
 				}
 
-				writeStateProperties(k, p, 0);
+				writeStateProperties(k, p);
 			}
 
 			for(var k in variables) {
@@ -677,6 +677,10 @@ package flash
 			//var mySettingsLoader = new modSettingsLoader(modname+"settings",onSettingsSucceed);	//creates a new settingsloader specifying the file to load and the funtion to run
 			//mySettingsLoader.addEventListener("settingsNotFound",onSettingsFail);						//adds an event listener in case the settings file is failed to be found/loaded
 
+			animtools = main.animtools_comm;
+			if( ! animtools ) alert("animtools not found!");
+			dialogpatch = main.dialogpatch;
+
 			//g.dialogueControl.advancedController._dialogueDataStore["dt_recentdepth"] = 7;
 			//this.addEventListener(Event.ENTER_FRAME, doUpdate);
 			main.addEnterFramePersist(doUpdate);
@@ -724,6 +728,14 @@ package flash
 		function finishinit()
 		{
 			//main.unloadMod();
+		}
+
+		function modifyposition(dict:Dictionary)
+		{
+			var e;
+			e.settings = dict;
+			animtools.settingloadpart(e);
+			animtools.updateeverything();
 		}
 
 		public function smcheckWordAction()
@@ -863,6 +875,13 @@ package flash
 
 		function testhitpoints() : Boolean
 		{
+
+			if( animtools.testhitpoints() )
+				return true;
+			else if((animtools.penisinmouthdisttrack + animtools.penisinmouthdisttrackhighest) / 2 < her.pos && animtools.penisinmouthdisttrack != 999999 && animtools.penisinmouthdisttrackhighest != -999999)
+				return true;
+			return false;
+
 			/*var penisBmp:BitmapData = createBitmapData(g.him.penis);
 			var herBacksideBmp:BitmapData = createBitmapData(g.her.torso.backside);
 			var herBackBmp:BitmapData = createBitmapData(g.her.torsoBack);
