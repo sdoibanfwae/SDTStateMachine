@@ -1,14 +1,18 @@
 ﻿/*
 TODO:
+changing position variables from dialog
+reading position files from character folder
+dialog writing to state variables, like a phase variable
 make breath be a variable instead of relying on dialog actions
 should/can I use these?
-da.masturbation.herpleasure {read and write} - her masturbation pleasure (scale: 0-100)
-da.pleasurePercentage {read and write} - him pleasure (scale: 0-100)
+	da.masturbation.herpleasure {read and write} - her masturbation pleasure (scale: 0-100)
+	da.pleasurePercentage {read and write} - him pleasure (scale: 0-100)
 
 should depth hilt be optional? some people might want to use depth as an absolute for penis size, like depth cutoffs: {"deep":4, "verydeep":7, "toodeep":9, "monster":12}
 	maybe hilt should be a separate variable? so you have both depth and hilt
 maybe have a variable for penis_length and penis_girth?
 timing? state change cooldowns? lookbehind? I'd like to get out_to_hilted or out_to_overwhelmed working, also stroke variable could be improved with some historical data...
+	-I have "since" variables for each state? I can just write a function for HappenedRecently(statename), and have a state with a required recent state, either nth most recent or maximum age in seconds
 interrupts (based on priority?)
 should you be able to make a set of requirements into a variable? like variable contact: { requirements: { depth: ["shallow", "deep", "verydeep" ] } }
 	maybe it'd instead be called conditions, and the value of the variable would be the number of conditions currently being met? it should share code with the requirements check for states
@@ -53,10 +57,12 @@ package flash
 	var eDOM;
 	var lProxy;
 	var animtools;
+	var dialogueAPI;
 	var deepestyet:Number = 0.0;
 	var recentdeepest = new StatsGroup("dt_depth");
 	var recentvigour = new StatsGroup("dt_vigour");
 	var recentspeed = new StatsGroup("dt_speed");
+	var recentresistance = new StatsGroup("dt_resistance");
 	var lasthilt:Number = 0;
 	var contactdist:Number = 0.8;
 	var lastpos:Number = 0;
@@ -72,10 +78,6 @@ package flash
 	var cData;
 	var cacheCData;
 	var debug;
-
-	var patternforload:RegExp = new RegExp("^SMLOADCONFIG_", "");
-	var patternfor_enable_debug:RegExp = new RegExp("^SM_ENABLE_DEBUG$", "");
-	var patternfor_disable_debug:RegExp = new RegExp("^SM_DISABLE_DEBUG$", "");
 
 	public function objectLength(myObject:Object):int {
  		var cnt:int=0;
@@ -109,6 +111,7 @@ package flash
 
 		public function calcStats(val:Number, now_seconds:Number, maxage:Number, name:String)
 		{
+			if( isNaN(avgval) ) avgval = val;
 			lastval = val;
 			var decay = 100.0 / maxage;
 			var maxval_age = (now_seconds-maxtime);
@@ -173,6 +176,9 @@ package flash
 	public class StateManager
 	{
 		var state = "none";
+		var prev_state = "none";
+		//var line_waiting = false;
+		var lines_waiting = {};
 		var states = {
 			"sm_not_loaded": {
 				"requirements":{
@@ -185,7 +191,7 @@ package flash
 				lasttime:0,
 				totaltime:0,
 				times:0,
-				chances:5
+				chances:100
 			}
 		};
 		var variables = {
@@ -210,6 +216,11 @@ package flash
 				value: 0
 			},
 			penis_girth:{
+				cutoffs:{},
+				state: 'none',
+				value: 0
+			},
+			resistance:{
 				cutoffs:{},
 				state: 'none',
 				value: 0
@@ -265,7 +276,7 @@ package flash
 				lasttime:0,
 				totaltime:0,
 				times:0,
-				chances:0.1
+				chances:20
 			};
 			return states[name];
 		}
@@ -280,7 +291,7 @@ package flash
 
 		public function interruptLines()
 		{
-			g.dialogueControl.stopSpeaking();
+			g.dialogueControl.instantStop();
 		}
 
 		public function doStateActions(actions)
@@ -345,6 +356,56 @@ package flash
 			doStateActions(properties.actions);
 		}
 
+		public function isSpeaking()
+		{
+			return g.dialogueControl.speaking;
+			//return g.dialogueControl.showingText;
+		}
+
+		public function sayLine(name)
+		{
+			//g.dialogueControl.buildState(name, num);
+			if( ! isSpeaking() ) {
+				g.dialogueControl.triggerState(name);
+				return true;
+			}
+			else {
+				//g.dialogueControl.buildState(name, 100);
+				return false;
+			}
+		}
+
+		public function sayLines(name, now, old, p)
+		{
+			var key = name+";"+old;
+			var line_waiting = lines_waiting[key] === true;
+			var repeat = false;
+
+			if( (!now) && (!line_waiting) && Math.random() * 30 * 100 < p.chances )
+				repeat = true;
+			
+			if( (!now) && (!line_waiting) && (!repeat) )
+				return;
+
+			if( (!repeat) && isSpeaking() ) {
+				lines_waiting[key] = true;
+				return;
+			} else
+				lines_waiting[key] = false;
+
+			if( now || line_waiting ) {
+				if(old) sayLine(old+"_to_"+name);
+				sayLine("now_"+name);
+				sayLine(name);
+			}
+			else if( repeat ) {
+				log("triggerState "+name+", repeat");
+				triggerState(p, name, now, old);
+				sayLine(name);
+				//g.dialogueControl.buildState(name, 100);
+			}
+		}
+
 		public function callState(name, now, old)
 		{
 			var p = getStateProperties(name);
@@ -357,15 +418,9 @@ package flash
 				p.times++;
 				if(p.interrupt) interruptLines();
 				triggerState(p, name, now, old);
-
-				if(old) g.dialogueControl.buildState(old+"_to_"+name, 500);
-				g.dialogueControl.buildState("now_"+name, 200);
-				g.dialogueControl.buildState(name, 100);
-			} else if( Math.random() * 100 < p.chances ) {
-				log("triggerState "+name+", repeat");
-				triggerState(p, name, now, old);
-				g.dialogueControl.buildState(name, 20);
 			}
+
+			sayLines(name, now, old, p);
 
 			p.totaltime += now_seconds - p.lasttime;
 			p.lasttime = now_seconds;
@@ -410,9 +465,10 @@ package flash
 			}
 
 			var old = variable.state;
+			if( old != result ) variable.prev_state = old;
 			variable.state = result;
 			g.dialogueControl.advancedController._dialogueDataStore["sm_"+name] = result;
-			callState(name+"_"+result, old!=result, name+"_"+old);
+			callState(name+"_"+result, old!=result, name+"_"+variable.prev_state);
 			if(old!=result) {
 				return 1;
 			}
@@ -427,6 +483,7 @@ package flash
 			variables.hilted.value = variables.depth.value / penis_len*0.99;
 			variables.penis_length.value = penis_len;
 			variables.penis_girth.value = penis_girth;
+			variables.resistance.value = recentresistance.stats[1].maxval * 100;
 
 			var maxdepth = recentdeepest.stats[2].maxval;
 			var mindepth = recentdeepest.stats[2].minval;
@@ -496,7 +553,8 @@ package flash
 			}
 
 			g.dialogueControl.advancedController._dialogueDataStore["sm_state"] = state;
-			callState(state, oldstate!=state, oldstate);
+			if( oldstate != state ) prev_state = oldstate;
+			callState(state, oldstate!=state, prev_state);
 		}
 
 		public function Update()
@@ -587,7 +645,7 @@ package flash
 				var p = getStateProperties(k);
 				var priority = p.priority / 100;
 				//log("building states for "+k);
-				g.dialogueControl.states[k] = new mydialogstateclass(int(80 * priority), 1);
+				g.dialogueControl.states[k] = new mydialogstateclass(int(300 * priority), 1);
 				//log("built state for "+k);
 				g.dialogueControl.states["now_"+k] = new mydialogstateclass(int(500 * priority), 2);
 				for(var k2 in states) {
@@ -612,7 +670,7 @@ package flash
 					if( !cutoffs.hasOwnProperty(v) ) continue;
 					var p = getStateProperties(k+"_"+v);
 					var priority = p.priority / 100;
-					g.dialogueControl.states[k+"_"+v] = new mydialogstateclass(int(50 * priority), 1);
+					g.dialogueControl.states[k+"_"+v] = new mydialogstateclass(int(200 * priority), 1);
 					g.dialogueControl.states["now_"+k+"_"+v] = new mydialogstateclass(int(300 * priority), 2);
 
 					for(var v2 in cutoffs) {
@@ -680,8 +738,14 @@ package flash
 
 			animtools = main.animtools_comm;
 			if( ! animtools ) alert("animtools not found!");
-			dialogpatch = main.dialogpatch;
-			if( ! dialogpatch ) alert("dialogpatch not found!");
+
+			dialogueAPI = main.getAPI("DialogueActions");
+			if( ! dialogueAPI ) alert("DialogueActions API not found!");
+			var registerTrig = dialogueAPI["registerTrigger"].getFunction();
+			registerTrig("SET_RESISTANCE", 4, SetResistance, this, []);
+			registerTrig("SMLOADCONFIG", -1, SMLoadConfig, this, []);
+			registerTrig("SM_ENABLE_DEBUG", 0, SMEnableDebug, this, []);
+			registerTrig("SM_DISABLE_DEBUG", 0, SMDisableDebug, this, []);
 
 			//g.dialogueControl.advancedController._dialogueDataStore["dt_recentdepth"] = 7;
 			//this.addEventListener(Event.ENTER_FRAME, doUpdate);
@@ -695,8 +759,8 @@ package flash
 
 			statemanager.Init();
 
-			var checkWordActionproxy = lProxy.createProxy(g.dialogueControl, "checkWordAction");
-			checkWordActionproxy.addPre(smcheckWordAction, 1);
+			//var checkWordActionproxy = lProxy.createProxy(g.dialogueControl, "checkWordAction");
+			//checkWordActionproxy.addPre(smcheckWordAction, 1);
 
 			l.addEventListener("loadCharComplete", updateCacheCData);
 
@@ -740,35 +804,53 @@ package flash
 			animtools.updateeverything();
 		}
 
-		public function smcheckWordAction()
-		{
-			if ( g.dialogueControl.words && g.dialogueControl.words[g.dialogueControl.sayingWord] != undefined ) {
-				//log("checking for load");
-				if(patternforload.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
-					log("found load command");
-					var path = g.dialogueControl.words[g.dialogueControl.sayingWord].action.replace(patternforload, "");
-					path = path.replace("_slash5C_","\\");
-					path += ".txt";
-					statemanager = new StateManager();
-					statemanager.Init(path);
+		public function SMLoadConfig(args):void {
+			log("found load command");
 
-					g.dialogueControl.nextWord();
-					return true;
-				}
-				else if(patternfor_enable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
-					debug=true;
-					log("debug mode enabled");
-					g.dialogueControl.nextWord();
-					return true;
-				}
-					else if(patternfor_disable_debug.test(g.dialogueControl.words[g.dialogueControl.sayingWord].action)) {
-					log("debug mode disabled");
-					debug=false;
-					g.dialogueControl.nextWord();
-					return true;
-				}
-			}
-			
+			var path = args[0];
+			alert("loading "+path);
+			path = path.replace("_slash5C_","\\");
+			path += ".txt";
+			statemanager = new StateManager();
+			statemanager.Init(path);
+		}
+
+		public function SMEnableDebug(args):void {
+			debug=true;
+			log("debug mode enabled");
+		}
+
+		public function SMDisableDebug(args):void {
+			log("debug mode disabled");
+			debug=false;
+		}
+
+		public function SetResistance(args):void {
+			var resist = Number(args[0]);
+			var dist = Number(args[1]);
+			var normalize = Number(args[2]);
+			var descrease = Number(args[3]);
+
+			log("setting resistance to "+resist+", "+dist+", "+normalize+", "+descrease);
+			animtools.disablebodyintro = 0;
+			animtools.resistancewithbodycontact=1;
+			animtools.characterresistancepreset = 5;
+			animtools.updateresistancepreset();
+			animtools.adjustspeedinbodycontact=1;
+			animtools.resistancestartingdistance=dist;
+			animtools.startingresistance=resist;
+			animtools.minresistance=resist;
+			animtools.currentresistance=resist;
+
+			animtools.resistnormalizerate=normalize;
+			animtools.resistdecreaserate=descrease;
+			animtools.movementresistancemult=normalize;
+
+			/*animtools.resistoverriderate=0.01;
+			animtools.resistoverridereturnrate=0.2;
+			animtools.resistoverridemax=overridemax;*/
+
+			animtools.setcurrentresistance(resist);
 		}
 
 		public function doUpdate(a)
@@ -813,6 +895,7 @@ package flash
 			recentdeepest.calcStats(herpos_scaled, now_seconds);
 			recentvigour.calcStats(vigour, now_seconds);
 			recentspeed.calcStats(speed, now_seconds);
+			recentresistance.calcStats(animtools.reistiveamount, now_seconds);
 
 			if(herpos > deepestyet) {
 				deepestyet = herpos;
@@ -876,13 +959,12 @@ package flash
 
 		function testhitpoints() : Boolean
 		{
-			if( animtools ) {
-				if( animtools.testhitpoints() )
-					return true;
-				else if((animtools.penisinmouthdisttrack + animtools.penisinmouthdisttrackhighest) / 2 < her.pos && animtools.penisinmouthdisttrack != 999999 && animtools.penisinmouthdisttrackhighest != -999999)
-					return true;
-				return false;
-			}
+			//if( ! animtools ) return false;
+			if( animtools.testhitpoints() )
+				return true;
+			else if((animtools.penisinmouthdisttrack + animtools.penisinmouthdisttrackhighest) / 2 < her.pos && animtools.penisinmouthdisttrack != 999999 && animtools.penisinmouthdisttrackhighest != -999999)
+				return true;
+			return false;
 
 			/*var penisBmp:BitmapData = createBitmapData(g.him.penis);
 			var herBacksideBmp:BitmapData = createBitmapData(g.her.torso.backside);
