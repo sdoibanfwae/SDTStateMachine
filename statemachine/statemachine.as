@@ -1,5 +1,9 @@
 ﻿/*
 TODO:
+save the priority of the currently playing line for interrupt to compare priority?
+some lines need to play even if the state has ended, like orgasms, maybe don't execute the actions or effects until the dialog plays?
+	maybe depends on the type of state, like a depth state should be more immediate, but an orgasm state can happen late without any issues
+call a first_ for each state the first time it's called? or even just _timeX for each time?
 changing position variables from dialog
 reading position files from character folder
 dialog writing to state variables, like a phase variable
@@ -58,6 +62,7 @@ package flash
 	var lProxy;
 	var animtools;
 	var dialogueAPI;
+	var runTriggerCode;
 	var deepestyet:Number = 0.0;
 	var recentdeepest = new StatsGroup("dt_depth");
 	var recentvigour = new StatsGroup("dt_vigour");
@@ -177,7 +182,6 @@ package flash
 	{
 		var state = "none";
 		var prev_state = "none";
-		//var line_waiting = false;
 		var lines_waiting = {};
 		var states = {
 			"sm_not_loaded": {
@@ -303,8 +307,10 @@ package flash
 			slot = Math.floor(slot);
 			action = actions[slot];
 
+			runTriggerCode(action);
+
 			//I should figure out how to make this instant, or a thought style line, so her mouth doesn't move
-			if(g.dialogueControl.waitingToContinue || g.dialogueControl.speaking) //currently in dialog
+			/*if(g.dialogueControl.waitingToContinue || g.dialogueControl.speaking) //currently in dialog
 			{
 				//log("doStateActions: if");
 				g.dialogueControl.words.push(new Word(action));
@@ -315,7 +321,7 @@ package flash
 				g.dialogueControl.startSpeakingPhrase (new DialogueLine(action,null));
 				g.dialogueControl.instantStop();
 				g.dialogueControl.speaking = true;
-			}
+			}*/
 		}
 
 		public function getPleasure()
@@ -718,6 +724,7 @@ package flash
 	public dynamic class Main extends flash.display.MovieClip
 	{
 		var her;
+		var him;
 		const modname : String = "statemachine"
 
 		public function initl(l)
@@ -732,6 +739,7 @@ package flash
 			Word = eDOM.getDefinition("obj.dialogue.Word") as Class;
 			g = l.g;
 			her = l.her;
+			him = l.him;
 			//var modSettingsLoader = main.eDOM.getDefinition("Modules.modSettingsLoader") as Class;			//finds the modsettingsloader class from the loader
 			//var mySettingsLoader = new modSettingsLoader(modname+"settings",onSettingsSucceed);	//creates a new settingsloader specifying the file to load and the funtion to run
 			//mySettingsLoader.addEventListener("settingsNotFound",onSettingsFail);						//adds an event listener in case the settings file is failed to be found/loaded
@@ -742,10 +750,13 @@ package flash
 			dialogueAPI = main.getAPI("DialogueActions");
 			if( ! dialogueAPI ) alert("DialogueActions API not found!");
 			var registerTrig = dialogueAPI["registerTrigger"].getFunction();
+			runTriggerCode = dialogueAPI["runTriggerCode"].getFunction();
 			registerTrig("SET_RESISTANCE", 4, SetResistance, this, []);
 			registerTrig("SMLOADCONFIG", -1, SMLoadConfig, this, []);
 			registerTrig("SM_ENABLE_DEBUG", 0, SMEnableDebug, this, []);
 			registerTrig("SM_DISABLE_DEBUG", 0, SMDisableDebug, this, []);
+			registerTrig("SET_MAX_POS", 1, SetMaxPos, this, []);
+			registerTrig("MODIFY_POSITION", -1, ModifyPosition, this, []);
 
 			//g.dialogueControl.advancedController._dialogueDataStore["dt_recentdepth"] = 7;
 			//this.addEventListener(Event.ENTER_FRAME, doUpdate);
@@ -796,19 +807,119 @@ package flash
 			//main.unloadMod();
 		}
 
-		function modifyposition(dict:Dictionary)
+		function _modifyposition(dict:Dictionary)
 		{
-			var e;
-			e.settings = dict;
-			animtools.settingloadpart(e);
-			animtools.updateeverything();
+			//var alwaysresetmissingsettings = animtools.alwaysresetmissingsettings;
+			//animtools.alwaysresetmissingsettings = 0;
+			//var e={};
+			//e.settings = dict;
+			//alert("_modifyposition dict: "+dict);
+			//animtools.settingloadpart(e);
+
+			for (var key:Object in dict) {
+				var val:Object = dict[key];
+				if ( animtools.hasOwnProperty( key ) ) {
+					if(isNaN(Number(val)))
+					{
+						animtools[key] = val.replace(animtools.trim, "");
+					}
+					else
+					{
+						animtools[key] = Number(val);
+					}
+				}
+			}
+
+			//animtools.updateeverything();
+			
+			g.animationControl.animations["default"].herTween._startMatrix.tx=animtools.hertweenstartx;
+			g.animationControl.animations["default"].herTween._startMatrix.ty=animtools.hertweenstarty;
+
+			g.animationControl.animations["default"].herTween._endMatrix.tx=animtools.hertweenendx;
+			g.animationControl.animations["default"].herTween._endMatrix.ty=animtools.hertweenendy;
+
+			g.animationControl.animations["default"].hisTween._startMatrix.tx=animtools.histweenstartx;
+			g.animationControl.animations["default"].hisTween._startMatrix.ty=animtools.histweenstarty;
+			g.animationControl.animations["default"].hisTween._endMatrix.tx=animtools.histweenendx;
+			g.animationControl.animations["default"].hisTween._endMatrix.ty=animtools.histweenendy;
+			g.animationControl.animations[g.animationControl.currentAnimation].hisLeftFootTarget.x=animtools.leftfootx;
+			g.animationControl.animations[g.animationControl.currentAnimation].hisLeftFootTarget.y=animtools.leftfooty;
+			g.animationControl.animations[g.animationControl.currentAnimation].hisRightFootTarget.x=animtools.rightfootx;
+			g.animationControl.animations[g.animationControl.currentAnimation].hisRightFootTarget.y=animtools.rightfooty;
+			//her.torsoIK.coordinateSpace.x=animtools.torsox;
+			//her.torsoIK.coordinateSpace.y=animtools.torsoy;
+			g.animationControl.animations["default"].hisTween._startSkew.x=animtools.histweenstartskewx;
+			g.animationControl.animations["default"].hisTween._startSkew.y=animtools.histweenstartskewy;
+			g.animationControl.animations["default"].hisTween._endSkew.x=animtools.histweenendskewx;
+			g.animationControl.animations["default"].hisTween._endSkew.y=animtools.histweenendskewy;
+			g.animationControl.animations["default"].hisTween._startAng=animtools.histweenstartang;
+			g.animationControl.animations["default"].hisTween._endAng=animtools.histweenendangle;
+			g.animationControl.animations["default"].herTween._startAng=animtools.hertweenstartang;
+			g.animationControl.animations["default"].herTween._endAng=animtools.hertweenendangle;
+			g.animationControl.animations["default"].torsoMinAng=animtools.torsominang;
+			her.torsoIK.s2OffsetAng=animtools.torsoikoffsetang;
+			her.torsoIK.endRotationAngle=animtools.torsoendrotationangle;
+			g.animationControl.animations["default"].torsoAngMultiplier=animtools.torsoanglemodifier;
+			g.animationControl.animations["default"].torsoMinDist=animtools.torsomindistance;
+			g.animationControl.animations["default"].torsoDistMultiplier=animtools.torsodistancemultiplier;
+			
+			g.animationControl.animations["default"].torsoStartAng=animtools.torsostartangle;
+			g.animationControl.animations["default"].torsoStartDist=animtools.torsostartdistance;
+			
+			animtools.updateeverything_himhidden();
+			
+			//code to support old settings
+			if(animtools.handlontit != 0 && animtools.armpostypeleft != -1)
+			{
+				animtools.armpostypeleft = 4 + animtools.handlontit;
+			}
+			if(animtools.handrontit != 0 && animtools.armpostyperight != -1)
+			{
+				animtools.armpostyperight = 4 + animtools.handrontit;
+			}
+			
+			//animtools.updateeverything_arms();		//v28 moved after legout
+			
+			if(animtools.changegravityforstrands == 0)
+			{
+				g.gravity = animtools.originalgravity;
+			}
+			else
+			{
+				g.gravity = 0;
+			}
+			
+			
+			
+			animtools.updateeverything_licking()
+			
+			
+			if(animtools.hisarmfree != animtools.numarmpos)
+			{
+				him.setArmPosition(animtools.hisarmfree, true);
+			}
+			
+			for(var p = 0; p < animtools.allprops.length; p++)
+			{
+				animtools.updateprop(animtools.allprops[p]);
+			}
+			
+			//animtools.updateeverything_penissize();
+			//animtools.resetusedvariables(animtools.pullbackonpositionchange == 1);
+			//animtools.updateeverything_dialogvars();
+
+
+			animtools.setlegout();
+			animtools.setleftbreastbehind();
+			//her.addChildAt(lconp,legindex);
+			animtools.updateeverything_arms();	//v28 ,moved this from above
+			
+			//animtools.alwaysresetmissingsettings = alwaysresetmissingsettings;
 		}
 
 		public function SMLoadConfig(args):void {
-			log("found load command");
-
 			var path = args[0];
-			alert("loading "+path);
+			log("loading "+path);
 			path = path.replace("_slash5C_","\\");
 			path += ".txt";
 			statemanager = new StateManager();
@@ -851,6 +962,20 @@ package flash
 			animtools.resistoverridemax=overridemax;*/
 
 			animtools.setcurrentresistance(resist);
+		}
+
+		public function SetMaxPos(args):void {
+			her.maxPos = Number(args[0]);
+		}
+
+		public function ModifyPosition(args):void {
+			try {
+				var dict:Dictionary = new Dictionary();
+				for(var i=0; i+1 < args.length; i+=2) {
+					dict[args[i]] = args[i+1];
+				}
+				_modifyposition(dict);
+			} catch(e) { alert(e); }
 		}
 
 		public function doUpdate(a)
